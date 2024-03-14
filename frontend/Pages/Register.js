@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
 import CustomInput from '../Components/CustomInput';
 import ButtonComponent from '../Components/ButtonComponent';
@@ -14,6 +14,12 @@ const RegisterPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirm, setConfirm] = useState("");
+   
+    function onPress() {
+        console.log(email);
+        console.log(password);
+        console.log(confirm);
+    }
 
     return (
         <View style={{
@@ -30,7 +36,7 @@ const RegisterPage = () => {
             <CustomInput placeholder={"Enter email"} setText={setEmail} value={email}/>
             <CustomInput placeholder={"Enter password"} setText={setPassword} value={password}/>
             <CustomInput placeholder={"Confirm password"} setText={setConfirm} value={confirm}/>
-            <ButtonComponent/>
+            <ButtonComponent onPress={ onPress } />
         </View>
     );
 

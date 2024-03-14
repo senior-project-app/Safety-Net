@@ -13,11 +13,7 @@ const CustomButton = (props) => {
 
     return (
         <View style={styles.purplebutton}>
-            <Pressable
-                onPress={() => {
-                    setPressed(!wasPressed);
-                    props.onPress();
-                }}>
+            <Pressable onPress={ () => props.onPress() }>
                 <Text style={styles.purpleButton}>Register</Text>
             </Pressable>
         </View>
