@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import CustomInput from './frontend/Components/CustomInput';
+import RegisterPage from './frontend/Pages/Register';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <RegisterPage/>
     </View>
   );
 }
@@ -16,5 +17,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  purpleInput: {
+      textAlign: 'center',
+      borderWidth: 2,
+      borderRadius: 9,
+      padding: 20,
+      margin: 10,
+      fontSize: 16,
+      color: '#23027D',
+      borderColor: '#23027D',
+      backgroundColor: '#FFFFFF',
   },
 });

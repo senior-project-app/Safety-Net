@@ -27,9 +27,9 @@ const RegisterPage = () => {
                 paddingBottom: 10,
                 color: colorDarkPurple
             }}>Create Account</Text>
-            <CustomInput placeholder={"Enter email"}/>
-            <CustomInput placeholder={"Enter password"}/>
-            <CustomInput placeholder={"Confirm password"}/>
+            <CustomInput placeholder={"Enter email"} setText={setEmail} value={email}/>
+            <CustomInput placeholder={"Enter password"} setText={setPassword} value={password}/>
+            <CustomInput placeholder={"Confirm password"} setText={setConfirm} value={confirm}/>
             <ButtonComponent/>
         </View>
     );

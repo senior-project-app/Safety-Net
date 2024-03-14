@@ -18,7 +18,7 @@ const CustomButton = (props) => {
                     setPressed(!wasPressed);
                     props.onPress();
                 }}>
-                <Text style={styles.purpleButton}>{wasPressed ? props.pressed : props.notPressed}</Text>
+                <Text style={styles.purpleButton}>Register</Text>
             </Pressable>
         </View>
     );
@@ -26,7 +26,8 @@ const CustomButton = (props) => {
 
 const styles = StyleSheet.create({
     purpleButton: {
-        padding: 20,
+        textAlign: 'center',
+        padding: 10,
         margin: 10,
         borderRadius: 9,
         fontSize: 16,
@@ -37,4 +38,4 @@ const styles = StyleSheet.create({
 });
 
 
-export { CustomButton };
+export default CustomButton;
