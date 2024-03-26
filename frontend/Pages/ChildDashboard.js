@@ -4,6 +4,7 @@ import CustomInput from '../Components/CustomInput';
 import CustomButton from '../Components/ButtonComponent';
 import CustomBackButton from '../Components/BackButtonComponent';
 import CustomCircleButton from '../Components/CircleButtonComponent';
+import CustomBoxWithText from '../Components/CustomBoxWithTextComponent';
 
 const colorDarkPurple = '#23027D'; //
 const colorRoyalPurple = '#6E19FF'; // 
@@ -39,14 +40,7 @@ const ChildDashboardPage = () => {
             }}>Check back in at </Text>
 
 
-             <Text style={{
-                fontFamily: 'Cochin',
-                fontSize: 24,
-                fontWeight: 'bold',
-                textAlign: 'center',
-                paddingBottom: 10,
-                color: colorBlack,
-            }}>2:30:00</Text>
+            <CustomBoxWithText myText = {"Time"}></CustomBoxWithText>
 
         </View>
     );
