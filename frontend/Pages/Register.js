@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
 import CustomInput from '../Components/CustomInput';
 import ButtonComponent from '../Components/ButtonComponent';
+import Supervisor from '../../backend/Supervisor';
+
 
 const colorDarkPurple = '#23027D'; //
-const colorRoyalPurple = '#6E19FF'; // 
 const colorLightPurple = '#D8CCFF'; //
-const colorWhite = '#FFFFFF'; // 
-const colorGray = '#707070'; // 
-const colorBlack = '#FFFFFF'; //
 
 const RegisterPage = () => {
     const [email, setEmail] = useState("");
@@ -16,6 +14,8 @@ const RegisterPage = () => {
     const [confirm, setConfirm] = useState("");
    
     function onPress() {
+
+
         console.log(email);
         console.log(password);
         console.log(confirm);
