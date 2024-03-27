@@ -1,12 +1,6 @@
-const Supervisor = require("./Supervisor.js");
+const Supervisor = require('./Supervisor');
 
-/* user creation example 
-
-
-
-// supervisor example
-// supervisor_1 = Supervisor.register("dev", "dev@safetynet.com", "dev");
-
-// supervisor login example
-
-console.log(Supervisor.login("dev@safetynet.com", "de1v").then(result => console.log(result)));
+Supervisor.register("Cole Hoffman", "example@example.com", "password_example")
+    .then((res) => {
+        console.log(res);
+    });

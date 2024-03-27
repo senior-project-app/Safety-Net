@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const bcrypt = require("bcrypt");
-const Supervised = require("./supervised.js");
+const Supervised = require("./Supervised.js");
+const bcrypt = require('bcryptjs');
+const mongoose = require("mongoose"), {Schema, connection} = require("mongoose");
 const SALT_FACTOR = 10;
 
 const supervisorSchema = new Schema({
@@ -55,12 +54,12 @@ class Supervisor {
     }
 
     static async login(email, password) {
-        return await this.Model.findOne({ email: email });
+        return this.Model.findOne({email: email});
     }
     
     // find a supervisor by their email
     static async findByEmail(email) {
-        return await this.Model.findOne({ email: email });
+        return this.Model.findOne({email: email});
     }
 
     // unique invite codes are limited to 36^4 possibilities (1.7 million possibilities)
@@ -70,26 +69,26 @@ class Supervisor {
 
     // find a supervisor by their invite code
     static async findByInviteCode(inviteCode) {
-        return await this.Model.findOne({ inviteCode: inviteCode });
+        return this.Model.findOne({inviteCode: inviteCode});
     }
 
     // add a supervised to a supervisor
     static async addSupervised(supervisor, supervised) {
-        return await this.Model.updateOne({ _id: supervisor._id }, { $push: { supervised: supervised } });
+        return this.Model.updateOne({_id: supervisor._id}, {$push: {supervised: supervised}});
     }
 
     // connect to the database
-    static async connect() { 
-        await mongoose.connect(this.uri); 
-        mongoose.connection.on('connected', () => {
+    static async connect() {
+        await mongoose.connect(this.uri);
+        connection.on('connected', () => {
             console.log('Mongoose connection open to MongoDB Atlas.');
         });
         
-        mongoose.connection.on('error', (err) => {
+        connection.on('error', (err) => {
         console.error('MongoDB connection error: ' + err);
         });
         
-        mongoose.connection.on('disconnected', () => {
+        connection.on('disconnected', () => {
         console.log('Mongoose disconnected.');
         });
     }
