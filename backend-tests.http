@@ -1,0 +1,12 @@
+GET http://127.0.0.1:5000/ping
+
+###
+
+POST http://127.0.0.1:5000/register
+Content-Type: application/json
+
+{
+  "name": "Example User",
+  "email": "example2@example.com",
+  "password": "examplepassword1",
+}
