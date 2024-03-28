@@ -2,11 +2,19 @@ import React, { useState } from 'react';
 import { TextInput, View, StyleSheet } from 'react-native';
 
 const CustomInput = (props) => {
+    const [text, setText] = useState('');
+    const [placeholder, setPlaceholder] = useState(props.placeholder);
 
     return (
-        <View>
-            <TextInput style={style.purpleInput} defaultValue={props.placeholder} clearTextOnFocus={props.value.length==0 ? true : false} onChangeText={ (text) => { props.setText(text) } }/>
-        </View>
+        <TextInput
+            style={style.purpleInput}
+            defaultValue=""
+            placeholder={placeholder}
+            value={text}
+            onChangeText={(input) => setText(input)}
+            onFocus={() => setPlaceholder("")}
+            onBlur={() => setPlaceholder(props.placeholder)}
+        />
     );
 };
 

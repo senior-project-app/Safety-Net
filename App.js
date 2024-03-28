@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import CustomInput from './frontend/Components/CustomInput';
-import RegisterPage from './frontend/Pages/Register';
+import Register from './frontend/Pages/Register';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <RegisterPage/>
+      <Register/>
     </View>
   );
 }
@@ -14,7 +14,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#D8CCFF',
     alignItems: 'center',
     justifyContent: 'center',
   },
