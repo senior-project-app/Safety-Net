@@ -10,7 +10,7 @@ const colorWhite = '#FFFFFF'; //
 const colorGray = '#707070'; // 
 const colorBlack = '#FFFFFF'; //
 
-const RegisterPage = () => {
+const StartPage = () => {
     const [pairingCode, setPairingCode] = useState("");
 
     return (
@@ -20,7 +20,7 @@ const RegisterPage = () => {
             <Text style={{
                 fontFamily: 'Cochin',
                 fontSize: 20,
-                fontWeight: 'bold',
+                fontWeight: 'regular',
                 textAlign: 'center',
                 paddingBottom: 10,
                 color: colorDarkPurple
@@ -30,9 +30,11 @@ const RegisterPage = () => {
             <Text style={{
                 fontFamily: 'Cochin',
                 fontSize: 20,
-                fontWeight: 'bold',
+                fontWeight: 'regular',
                 textAlign: 'center',
-                paddingBottom: 10,
+                paddingBottom: 20,
+                paddingLeft: 15,
+                paddingRight: 15,
                 color: colorDarkPurple
             }}>To pair your device with an existing account, please enter the code below.</Text>
             <CustomInput placeholder={"Enter pairing code"} setText={setPairingCode} value={pairingCode}/>
@@ -43,4 +45,4 @@ const RegisterPage = () => {
 
 }
 
-export default RegisterPage;
+export default StartPage;

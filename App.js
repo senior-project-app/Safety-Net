@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import RegisterPage from './frontend/Pages/Register';
+import StartPage from './frontend/Pages/CodeInput';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <RegisterPage/>
+      <StartPage/>
     </View>
   );
 }

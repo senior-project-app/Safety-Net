@@ -11,7 +11,7 @@ const CustomBackButton = (props) => {
     const [wasPressed, setPressed] = useState(false); // state
 
     return (
-        <View style={styles.purplebutton}>
+        <View style={styles.purpleButton}>
             <Pressable
                 onPress={() => {
                     setPressed(!wasPressed);
