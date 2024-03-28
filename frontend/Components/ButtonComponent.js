@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     purpleButton: {
         textAlign: 'center',
         padding: 10,
-        width: "10%",
         margin: 10,
         borderRadius: 9,
         fontSize: 16,
