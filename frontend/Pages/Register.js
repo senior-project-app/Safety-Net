@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
 import CustomInput from '../Components/CustomInput';
-import ButtonComponent from '../Components/ButtonComponent';
+import CustomButton from '../Components/ButtonComponent';
 
 const colorDarkPurple = '#23027D'; //
 const colorRoyalPurple = '#6E19FF'; // 
@@ -30,10 +30,17 @@ const RegisterPage = () => {
             <CustomInput placeholder={"Enter email"} setText={setEmail} value={email}/>
             <CustomInput placeholder={"Enter password"} setText={setPassword} value={password}/>
             <CustomInput placeholder={"Confirm password"} setText={setConfirm} value={confirm}/>
-            <ButtonComponent/>
+            <CustomButton myText={"Sign up"} onPress={goToParentDashboard}></CustomButton>
         </View>
     );
 
+    function goToParentDashboard(){
+        return (
+            <View>
+              <ParentDashboardPage/>
+            </View>
+        );
+    }
 }
 
 export default RegisterPage;
