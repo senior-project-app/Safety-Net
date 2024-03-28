@@ -27,6 +27,7 @@ const CustomButton = (props) => {
 const styles = StyleSheet.create({
     purpleButton: {
         textAlign: 'center',
+        maxWidth: "100%",
         padding: 10,
         margin: 10,
         borderRadius: 9,

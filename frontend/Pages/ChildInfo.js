@@ -18,6 +18,7 @@ const ChildInfoPage = () => {
         <View style={{
             backgroundColor: colorLightPurple,
         }}>
+            <CustomBackButton></CustomBackButton>
             <Text style={{
                 fontFamily: 'Cochin',
                 fontSize: 24,
@@ -27,17 +28,10 @@ const ChildInfoPage = () => {
                 color: colorBlack,
             }}>Please enter your name to continue.</Text>
             <CustomInput placeholder={"Enter your name"} setText={setName} value={name}/>
-            <CustomButton myText={"Confirm"} onPress={goToChildDashboard}></CustomButton>
+            <CustomButton myText={"Confirm"}></CustomButton>
         </View>
     );
 
-    function goToChildDashboard(){
-        return (
-            <View>
-              <ChildDashboardPage/>
-            </View>
-        );
-    }
 }
 
 export default ChildInfoPage;
