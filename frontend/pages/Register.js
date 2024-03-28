@@ -7,23 +7,44 @@ import axios from 'axios';
 const colorDarkPurple = '#23027D'; //
 const colorLightPurple = '#D8CCFF'; //
 
-const RegisterPage = () => {
+
+function Register() {
+    const [ name,  setName ] = useState("");
+    const [ email,  setEmail ] = useState("");
+    const [ password,  setPassword ] = useState("");
+    const [ confirm,  setConfirm ] = useState("");
+
     async function register() {
-        // TODO: implement axios call to the backend to register new user
+        axios({
+            method: 'post',
+            url: '/register',
+            data: {
+                name: fullName,
+                email: email,
+                password: password
+            }
+        })
+            .then(() => {
+                // TODO: redirect to dashboard
+            })
+            .catch(() => {
+                // TODO: error message banner, redo
+            })
     }
 
     return (
         <View style={styles.centered}>
             <Text style={styles.title}>Create Account</Text>
-            <Input id="name" placeholder={"Enter name"}/>
-            <Input id= "email" placeholder={"Enter email"}/>
-            <Input id= "password" placeholder={"Enter password"}/>
-            <Input id= "confirmPassword" placeholder={"Confirm password"}/>
+            <Input setText={ setName } placeholder="Enter name"  />
+            <Input setText={ setEmail } placeholder="Enter email"/>
+            <Input setText={ setPassword } placeholder="Enter password"/>
+            <Input setText={ setConfirm } placeholder="Confirm password"/>
 
             <ButtonComponent onPress={ register } />
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     centered: {
@@ -43,4 +64,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default RegisterPage;
+export default Register;

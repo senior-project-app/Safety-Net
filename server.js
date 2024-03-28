@@ -4,8 +4,17 @@ const Supervisor = require('./backend/Supervisor.js');
 const app = express();
 const port = process.env.PORT || 5000;
 
+app.use(express.json())
 
-// TODO: implement register and login functions
+app.post('/register', (req, res) => {
+    Supervisor.register(req.body.name, req.body.email, req.body.password)
+        .then(() => {
+            res.status(200).json({ "status": "OK"} );
+        })
+        .catch(() => {
+            res.status(500).json({ "status": "Internal Server Error"} );
+        });
+});
 
 app.get('/ping', (req, res) => {
     // Handle your API logic here

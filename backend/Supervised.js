@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const model = mongoose.model;
 
 // for now we are going to support one range of dates for each supervised
-supervisedSchema = new Schema({
+const supervisedSchema = new Schema({
     name: { type: String, unique: false, required: true },
     schedule: {
         start: Date,
@@ -12,7 +12,7 @@ supervisedSchema = new Schema({
 });
 
 class Supervised {
-    Model = model("Supervised", supervisedSchema);
+    static Model = model("Supervised", supervisedSchema);
 
     // create a new supervisor (a collection within mongodb)
     static async create(name, email, password) {
