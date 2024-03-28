@@ -21,6 +21,8 @@ const CustomInput = (props) => {
 const style = StyleSheet.create({
     purpleInput: {
         textAlign: 'center',
+        maxWidth: "100%",
+        width: 250,
         borderWidth: 2,
         borderRadius: 9,
         padding: 10,

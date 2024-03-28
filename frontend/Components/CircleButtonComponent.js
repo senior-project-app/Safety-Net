@@ -28,6 +28,7 @@ const CustomCircleButton = (props) => {
 const styles = StyleSheet.create({
     purpleButton: {
         textAlign: 'center',
+        maxWidth: "100%",
         padding: 60,
         margin: 10,
         borderRadius: "50%",

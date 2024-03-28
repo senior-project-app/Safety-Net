@@ -1,42 +1,42 @@
-// <CustomBackButton onPress={customActionOne}></CustomBackButton>
-
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 const colorDarkPurple = '#23027D'; // button bg color
 const colorRoyalPurple = '#6E19FF'; // button border color
-const colorLightPurple = '#D8CCFF'; // button text color
 const colorWhite = '#FFFFFF'; // button text color
+const colorLightPurple = '#D8CCFF'; //
 
 
 const CustomBackButton = (props) => {
     const [wasPressed, setPressed] = useState(false); // state
 
     return (
-        <View style={styles.backbutton}>
+        <View style={styles.purplebutton}>
             <Pressable
                 onPress={() => {
                     setPressed(!wasPressed);
                     props.onPress();
                 }}>
-                <Text style={styles.backButton}>{'<'}</Text>
+                <Text style={styles.purpleButton}>{"<"}</Text>
             </Pressable>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    backButton: {
-        width: 40,
-        padding: 8,
+    purpleButton: {
+        textAlign: 'center',
+        maxWidth: "15%",
+        padding: 0,
         margin: 10,
+        borderWidth: 2,
         borderRadius: 9,
-        fontSize: 24,
+        fontSize: 30,
         color: colorDarkPurple,
-        borderColor: colorLightPurple,
+        borderColor: colorDarkPurple,
         backgroundColor: colorLightPurple,
     },
 });
 
 
-export { CustomBackButton };
+export default CustomBackButton;
