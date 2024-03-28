@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, TextInput, View, StyleSheet } from 'react-native';
-import CustomInput from '../Components/CustomInput';
-import ButtonComponent from '../Components/ButtonComponent';
+import Input from '../components/Input';
+import ButtonComponent from '../components/Button';
 import axios from 'axios';
 
 const colorDarkPurple = '#23027D'; //
@@ -9,21 +9,16 @@ const colorLightPurple = '#D8CCFF'; //
 
 const RegisterPage = () => {
     async function register() {
-        try {
-            const response = await axios.get("/api/data");
-
-
-
-        } catch (error) { console.log(JSON.stringify(error)); }
+        // TODO: implement axios call to the backend to register new user
     }
 
     return (
         <View style={styles.centered}>
             <Text style={styles.title}>Create Account</Text>
-            <CustomInput id="name" placeholder={"Enter name"}/>
-            <CustomInput id= "email" placeholder={"Enter email"}/>
-            <CustomInput id= "password" placeholder={"Enter password"}/>
-            <CustomInput id= "confirmPassword" placeholder={"Confirm password"}/>
+            <Input id="name" placeholder={"Enter name"}/>
+            <Input id= "email" placeholder={"Enter email"}/>
+            <Input id= "password" placeholder={"Enter password"}/>
+            <Input id= "confirmPassword" placeholder={"Confirm password"}/>
 
             <ButtonComponent onPress={ register } />
         </View>

@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import CustomInput from './frontend/Components/CustomInput';
-import RegisterPage from './frontend/Pages/Register';
+import Input from './frontend/components/Input';
+import RegisterPage from './frontend/pages/Register';
 
 export default function App() {
   return (

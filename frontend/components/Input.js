@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextInput, View, StyleSheet } from 'react-native';
 
-const CustomInput = (props) => {
+const Input = (props) => {
     const [text, setText] = useState(''); // tracks the value of the text input.
     const [placeholder, setPlaceholder] = useState(props.placeholder);
 
@@ -33,4 +33,4 @@ const style = StyleSheet.create({
     },
   });
 
-export default CustomInput;
+export default Input;
