@@ -17,7 +17,14 @@ const CustomBackButton = (props) => {
                     setPressed(!wasPressed);
                     props.onPress();
                 }}>
-                <Text style={styles.purpleButton}>{"<"}</Text>
+                <Text style={{
+                fontFamily: 'Cochin',
+                fontSize: 30,
+                fontWeight: 'regular',
+                textAlign: 'center',
+                paddingBottom: 10,
+                color: colorDarkPurple
+            }}>{"<"}</Text>
             </Pressable>
         </View>
     );
@@ -36,6 +43,7 @@ const styles = StyleSheet.create({
         borderColor: colorDarkPurple,
         backgroundColor: colorLightPurple,
     },
+    
 });
 
 
