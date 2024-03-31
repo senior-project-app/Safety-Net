@@ -18,12 +18,11 @@ function CustomInput({text, setText, placeholder }) {
 const style = StyleSheet.create({
     purpleInput: {
         textAlign: 'center',
-        maxWidth: "100%",
-        width: 250,
         borderWidth: 2,
         borderRadius: 9,
-        padding: 10,
-        margin: 10,
+        padding: 15,
+        marginTop: 10,
+        marginBottom: 10,
         fontSize: 16,
         color: '#23027D',
         borderColor: '#23027D',
