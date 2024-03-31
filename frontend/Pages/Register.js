@@ -1,43 +1,67 @@
-import React, { useState } from 'react';
-import { Text, TextInput, View } from 'react-native';
-import CustomInput from '../Components/CustomInput';
-import CustomButton from '../Components/ButtonComponent';
-import CustomBackButton from '../Components/BackButtonComponent';
+import React, { useEffect, useState } from 'react';
+import { Text, TextInput, View, StyleSheet } from 'react-native';
+import Input from '../components/Input';
+import ButtonComponent from '../components/Button';
+import axios from 'axios';
 
 const colorDarkPurple = '#23027D'; //
-const colorRoyalPurple = '#6E19FF'; // 
 const colorLightPurple = '#D8CCFF'; //
-const colorWhite = '#FFFFFF'; // 
-const colorGray = '#707070'; // 
-const colorBlack = '#FFFFFF'; //
 
-const RegisterPage = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirm, setConfirm] = useState("");
+
+function Register() {
+    const [ name,  setName ] = useState("");
+    const [ email,  setEmail ] = useState("");
+    const [ password,  setPassword ] = useState("");
+    const [ confirm,  setConfirm ] = useState("");
+
+    async function register() {
+        axios({
+            method: 'post',
+            url: '/register',
+            data: {
+                name: fullName,
+                email: email,
+                password: password
+            }
+        })
+            .then(() => {
+                // TODO: redirect to dashboard
+            })
+            .catch(() => {
+                // TODO: error message banner, redo
+            })
+    }
 
     return (
-        <View style={{
-            backgroundColor: colorLightPurple,
-        }}>
-            <CustomBackButton></CustomBackButton>
+        <View style={styles.centered}>
+            <Text style={styles.title}>Create Account</Text>
+            <Input setText={ setName } placeholder="Enter name"  />
+            <Input setText={ setEmail } placeholder="Enter email"/>
+            <Input setText={ setPassword } placeholder="Enter password"/>
+            <Input setText={ setConfirm } placeholder="Confirm password"/>
 
-            <Text style={{
-                fontFamily: 'Cochin',
-                fontSize: 20,
-                fontWeight: 'bold',
-                textAlign: 'center',
-                paddingBottom: 10,
-                color: colorDarkPurple
-            }}>Create Account</Text>
-            <CustomInput placeholder={"Enter email"} setText={setEmail} value={email}/>
-            <CustomInput placeholder={"Enter password"} setText={setPassword} value={password}/>
-            <CustomInput placeholder={"Confirm password"} setText={setConfirm} value={confirm}/>
-            <CustomButton myText={"Sign up"}></CustomButton>
+            <ButtonComponent onPress={ register } />
         </View>
     );
-
-
 }
 
-export default RegisterPage;
+
+const styles = StyleSheet.create({
+    centered: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: colorLightPurple,
+        width: "100%"
+    },
+    title: {
+        fontSize: 20,
+        marginVertical: 2,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        paddingBottom: 10,
+        color: colorDarkPurple,
+    },
+});
+
+export default Register;
