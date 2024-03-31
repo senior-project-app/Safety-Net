@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { TextInput, View, StyleSheet } from 'react-native';
 
-const CustomInput = (props) => {
-    const [text, setText] = useState('');
-    const [placeholder, setPlaceholder] = useState(props.placeholder);
-
+function CustomInput({text, setText, placeholder }) {
     return (
         <TextInput
             style={style.purpleInput}
@@ -12,8 +9,8 @@ const CustomInput = (props) => {
             placeholder={placeholder}
             value={text}
             onChangeText={(input) => setText(input)}
-            onFocus={() => setPlaceholder("")}
-            onBlur={() => setPlaceholder(props.placeholder)}
+            onFocus={(e) =>
+            { console.log(e.currentTarget.memoizedProps) }}
         />
     );
 };

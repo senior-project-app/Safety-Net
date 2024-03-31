@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Text, TextInput, View, StyleSheet } from 'react-native';
-import Input from '../components/Input';
-import ButtonComponent from '../components/Button';
 import axios from 'axios';
+import CustomInput from "../Components/CustomInput";
+import ButtonComponent from "../Components/ButtonComponent";
 
 const colorDarkPurple = '#23027D'; //
 const colorLightPurple = '#D8CCFF'; //
@@ -35,10 +35,10 @@ function Register() {
     return (
         <View style={styles.centered}>
             <Text style={styles.title}>Create Account</Text>
-            <Input setText={ setName } placeholder="Enter name"  />
-            <Input setText={ setEmail } placeholder="Enter email"/>
-            <Input setText={ setPassword } placeholder="Enter password"/>
-            <Input setText={ setConfirm } placeholder="Confirm password"/>
+            <CustomInput setText={ setName } placeholder="Enter name"  />
+            <CustomInput setText={ setEmail } placeholder="Enter email"/>
+            <CustomInput setText={ setPassword } placeholder="Enter password"/>
+            <CustomInput setText={ setConfirm } placeholder="Confirm password"/>
 
             <ButtonComponent onPress={ register } />
         </View>
