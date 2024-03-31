@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { styles } from "../../App";
 
 const colorDarkPurple = '#23027D'; // button bg color
 const colorRoyalPurple = '#6E19FF'; // button border color
@@ -24,20 +25,6 @@ const CustomButton = (props) => {
     );
 };
 
-const styles = StyleSheet.create({
-    purpleButton: {
-        textAlign: 'center',
-        maxWidth: "100%",
-        padding: 10,
-        marginTop: 10,
-        marginBottom: 10,
-        borderRadius: 9,
-        fontSize: 16,
-        color: colorWhite,
-        borderColor: colorDarkPurple,
-        backgroundColor: colorRoyalPurple,
-    },
-});
 
 
 export default CustomButton;

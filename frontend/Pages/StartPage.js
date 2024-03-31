@@ -2,18 +2,16 @@ import React, {useState} from 'react';
 import {Text, TextInput, View, StyleSheet} from 'react-native';
 import CustomInput from '../Components/CustomInput';
 import CustomButton from '../Components/ButtonComponent';
-
-const colorDarkPurple = '#23027D'; //
-const colorRoyalPurple = '#6E19FF'; // 
-const colorLightPurple = '#D8CCFF'; //
-const colorWhite = '#FFFFFF'; // 
-const colorGray = '#707070'; // 
-const colorBlack = '#FFFFFF'; //
+import { styles } from '../../App';
 
 const StartPage = () => {
     const [pairingCode, setPairingCode] = useState("");
     return (
         <View style={styles.container}>
+
+            <View>
+                <Text style={styles.logo}>SafetyNet</Text>
+            </View>
 
             <View style={styles.child}>
                 <Text style={styles.text}>Sign In</Text>
@@ -37,32 +35,6 @@ const StartPage = () => {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "space-evenly", // for spacing on the vertical
-        alignItems: "center",
-        marginTop: '25%', // forces content to be closer to the center by reducing amount of space for "space-evenly"
-        marginBottom: '25%', // forces conent to be closer to the center
-        backgroundColor: colorLightPurple,
-    },
-    child: {
-        width: "75%" // makes children be the same width
-    },
-    registerButton: {
-        fontFamily: 'Cochin',
-        fontWeight: 'regular',
-        color: "blue",
-    },
-    text: {
-        alignSelf: "flex-start",
-        fontFamily: 'Cochin',
-        fontSize: 20,
-        fontWeight: 'regular',
-        color: colorDarkPurple,
-    },
-});
 
 
 export default StartPage;

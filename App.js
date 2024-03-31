@@ -58,4 +58,16 @@ export const styles = StyleSheet.create({
         fontWeight: 'regular',
         color: colorDarkPurple,
     },
+    purpleButton: {
+        textAlign: 'center',
+        maxWidth: "100%",
+        padding: 10,
+        marginTop: 10,
+        marginBottom: 10,
+        borderRadius: 9,
+        fontSize: 16,
+        color: colorWhite,
+        borderColor: colorDarkPurple,
+        backgroundColor: colorRoyalPurple,
+    },
 });
