@@ -5,7 +5,7 @@ import { styles } from "../../App";
 function CustomInput({text, setText, placeholder }) {
     return (
         <TextInput
-            style={style.purpleInput}
+            style={styles.purpleInput}
             defaultValue=""
             placeholder={placeholder}
             value={text}
