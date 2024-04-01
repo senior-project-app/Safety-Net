@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         maxWidth: "100%",
         padding: 60,
         margin: 10,
-        borderRadius: "50%",
+        borderRadius: 50,
         fontSize: 16,
         color: colorWhite,
         borderColor: colorDarkPurple,

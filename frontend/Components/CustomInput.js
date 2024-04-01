@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { TextInput, View, StyleSheet } from 'react-native';
-import { styles } from "../../App";
+import styles from '../Components/Styles';
 
-function CustomInput({text, setText, placeholder }) {
+function CustomInput({ setText, value, placeholder }) {
+    const [placeholderLocal, setPlaceholder] = useState(placeholder);
+
     return (
         <TextInput
-            style={styles.purpleInput}
+            onChangeText={ (text) => setText(text) }
+            onFocus={ () => setPlaceholder("") }
+            onBlur={ () => setPlaceholder(placeholder) }
+            placeholder={ placeholderLocal }
+            value={value}
             defaultValue=""
-            placeholder={placeholder}
-            value={text}
-            onChangeText={(input) => setText(input)}
-            onFocus={(e) =>
-            { console.log(e.currentTarget.memoizedProps) }}
+            style={styles.purpleInput}
         />
     );
 }

@@ -1,67 +1,52 @@
-import React, { useEffect, useState } from 'react';
-import { Text, TextInput, View, StyleSheet } from 'react-native';
-import axios from 'axios';
+import React, {useContext, useState} from 'react';
+import { Text, View } from 'react-native';
 import CustomInput from "../Components/CustomInput";
-import ButtonComponent from "../Components/ButtonComponent";
+import CustomButton from "../Components/ButtonComponent";
+import {AuthenticatedContext} from "../../backend/Contexts";
+import styles from "../Components/Styles";
+import axios from 'axios';
 
-const colorDarkPurple = '#23027D'; //
-const colorLightPurple = '#D8CCFF'; //
-
-
-function Register() {
+function Register({ navigation }) {
+    const { authenticated, setAuthenticated } = useContext(AuthenticatedContext);
     const [ name,  setName ] = useState("");
     const [ email,  setEmail ] = useState("");
     const [ password,  setPassword ] = useState("");
     const [ confirm,  setConfirm ] = useState("");
 
     async function register() {
-        axios({
-            method: 'post',
-            url: '/register',
-            data: {
-                name: fullName,
-                email: email,
-                password: password
-            }
-        })
-            .then(() => {
-                // TODO: redirect to dashboard
+        const url = "http://10.0.0.229:5000/register"; // TODO: UPDATE WHEN WE DEMO, MUST BE DEVICE LOCAL IP
+        const data = {
+            name: name,
+            email: email,
+            password: password,
+        }
+
+        axios.post(url, data)
+            .then((res) => {
+                // success, authenticate user
+                setAuthenticated(true);
             })
-            .catch(() => {
-                // TODO: error message banner, redo
-            })
+            .catch((err) => {
+                // report error
+            });
+
     }
 
     return (
-        <View style={styles.centered}>
-            <Text style={styles.title}>Create Account</Text>
-            <CustomInput setText={ setName } placeholder="Enter name"  />
-            <CustomInput setText={ setEmail } placeholder="Enter email"/>
-            <CustomInput setText={ setPassword } placeholder="Enter password"/>
-            <CustomInput setText={ setConfirm } placeholder="Confirm password"/>
+        <View style={styles.container}>
+            <View>
+                <Text style={styles.logo}>SafetyNet</Text>
+            </View>
 
-            <ButtonComponent onPress={ register } />
+            <View style={styles.child}>
+                <Text style={styles.text}>Register</Text>
+                <CustomInput placeholder={"Name"} setText={setName} value={name}/>
+                <CustomInput placeholder={"Email"} setText={setEmail} value={email}/>
+                <CustomInput placeholder={"Password"} setText={setPassword} value={password}/>
+                <CustomInput placeholder={"Confirm Password"} setText={setConfirm} value={confirm}/>
+                <CustomButton myText={"Register"} onPress={register}/>
+            </View>
         </View>
     );
 }
-
-
-const styles = StyleSheet.create({
-    centered: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: colorLightPurple,
-        width: "100%"
-    },
-    title: {
-        fontSize: 20,
-        marginVertical: 2,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        paddingBottom: 10,
-        color: colorDarkPurple,
-    },
-});
-
 export default Register;
