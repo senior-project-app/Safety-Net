@@ -28,17 +28,9 @@ const SignInPage = () => {
             }}>Please sign in or create an account to continue.</Text>
             <CustomInput id="email" placeholder={"Enter email"} setText={setEmail} value={email}/>
             <CustomInput id="password" placeholder={"Enter password"} setText={setPassword} value={password}/>
-            <CustomButton myText={"Sign in"} onPress={goToParentDashboard}></CustomButton>
+            <CustomButton myText={"Sign in"} onPress={() => navigation.navigate('ParentDashboard')}></CustomButton>
         </View>
     );
-
-    function goToParentDashboard(){
-        return (
-            <View>
-              <ParentDashboardPage/>
-            </View>
-        );
-    }
 }
 
 export default SignInPage;

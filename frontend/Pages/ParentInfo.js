@@ -13,7 +13,7 @@ const colorWhite = '#FFFFFF'; //
 const colorGray = '#707070'; // 
 const colorBlack = '#000000'; //
 
-const ParentInfoPage = () => {
+const ParentInfoPage = ({ navigation }) => {
 
     const [timeCounter, interactionTimeCount] = useState("");
     const [suspendFrom, suspendFromTime] = useState("");
@@ -41,18 +41,10 @@ const ParentInfoPage = () => {
                 color: colorBlack,
             }}>Use the access code sent in the email to pair other devices to your account. They will appear in your dashboard once successfully signed in.</Text>
 
-            <CustomButton myText={"Sign in"} onPress={goToParentDashboard}></CustomButton>
+            <CustomButton myText={"Sign in"} onPress={navigation.navigate('SignIn')}></CustomButton>
 
         </View>
     );
-
-    function goToParentDashboard(){
-        return (
-            <View>
-              <ParentDashboardPage/>
-            </View>
-        );
-    }
 
 }
 

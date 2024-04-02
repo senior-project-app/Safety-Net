@@ -6,7 +6,7 @@ import CustomBackButton from '../Components/BackButtonComponent';
 import CustomCircleButton from '../Components/CircleButtonComponent';
 import CustomBoxWithText from '../Components/CustomBoxWithTextComponent';
 
-const ParentDashboardPage = () => {
+const ParentDashboardPage = ({ navigation }) => {
     const [timeCounter, interactionTimeCount] = useState("");
     const [suspendFrom, suspendFromTime] = useState("");
     const [suspendTil, suspendTilTime] = useState("");

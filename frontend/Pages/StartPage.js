@@ -4,8 +4,10 @@ import CustomInput from '../Components/CustomInput';
 import CustomButton from '../Components/ButtonComponent';
 import styles from '../Components/Styles';
 import {AuthenticatedContext} from "../../backend/Contexts";
+import {NavigationContainer} from "@react-navigation/native";
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-const StartPage = (props) => {
+const StartPage = ({props, navigation }) => {
     const { authenticated, setAuthenticated } = useContext(AuthenticatedContext);
     const [pairingCode, setPairingCode] = useState("");
     const [ email,  setEmail ] = useState("");
@@ -31,10 +33,10 @@ const StartPage = (props) => {
             <View style={styles.child}>
                 <Text style={styles.text}>Pair to an account</Text>
                 <CustomInput placeholder={"Enter pairing code"} setText={(text) => setPairingCode(text)} value={pairingCode}/>
-                <CustomButton myText={"Pair"}></CustomButton>
+                <CustomButton myText={"Pair"} onPress={() => navigation.navigate('ChildDashboard')} ></CustomButton>
             </View>
 
-            <Text>Don't have an account? <Text style={styles.registerButton}>Register</Text></Text>
+            <Text>Don't have an account? <Text style={styles.registerButton} onPress={() => navigation.navigate('Register')} >Register</Text></Text>
 
         </View>
     );

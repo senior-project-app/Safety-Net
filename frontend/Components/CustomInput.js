@@ -12,7 +12,7 @@ function CustomInput({ setText, value, placeholder }) {
             onBlur={ () => setPlaceholder(placeholder) }
             placeholder={ placeholderLocal }
             value={value}
-            defaultValue=""
+            //defaultValue="" browser doesnt like this
             style={styles.purpleInput}
         />
     );

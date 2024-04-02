@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Alert} from 'react-native';
 import CustomInput from "../Components/CustomInput";
 import CustomButton from "../Components/ButtonComponent";
 import {AuthenticatedContext} from "../../backend/Contexts";
@@ -14,6 +14,7 @@ function Register({ navigation }) {
     const [ confirm,  setConfirm ] = useState("");
 
     async function register() {
+
         const url = "http://10.0.0.229:5000/register"; // TODO: UPDATE WHEN WE DEMO, MUST BE DEVICE LOCAL IP
         const data = {
             name: name,
@@ -21,10 +22,30 @@ function Register({ navigation }) {
             password: password,
         }
 
+        if (password != confirm){
+            Alert.alert("Passwords must match!");
+            return;
+        }
+        if (password == "" || name == "" || email == ""){
+            Alert.alert("Fields cannot be blank.");
+            return;
+        }
+
+
+        // TODO: Store user in database
+        // FOR PAGE TESTING PURPOSES
+        navigation.navigate('ParentInfo');
+        // FOR PAGE TESTING PURPOSES
+
+
+
         axios.post(url, data)
             .then((res) => {
                 // success, authenticate user
                 setAuthenticated(true);
+
+                navigation.navigate('ParentInfo');
+
             })
             .catch((err) => {
                 // report error
