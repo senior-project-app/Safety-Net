@@ -14,7 +14,8 @@ function Register({ navigation }) {
     const [ confirm,  setConfirm ] = useState("");
 
     async function register() {
-        const url = "http://10.0.0.229:5000/register"; // TODO: UPDATE WHEN WE DEMO, MUST BE DEVICE LOCAL IP
+
+        const url = "http://172.16.134.148:5000/register"; // TODO: UPDATE WHEN WE DEMO, MUST BE DEVICE LOCAL IP
         const data = {
             name: name,
             email: email,
@@ -29,6 +30,11 @@ function Register({ navigation }) {
             Alert.alert("Fields cannot be blank.");
             return;
         }
+
+        setConfirm("");
+        setEmail("");
+        setName("");
+        setPassword("");
 
 
         // TODO: Store user in database
@@ -49,6 +55,7 @@ function Register({ navigation }) {
             .catch((err) => {
                 // report error
             });
+
     }
 
     return (
@@ -61,8 +68,8 @@ function Register({ navigation }) {
                 <Text style={styles.text}>Register</Text>
                 <CustomInput placeholder={"Name"} setText={setName} value={name}/>
                 <CustomInput placeholder={"Email"} setText={setEmail} value={email}/>
-                <CustomInput placeholder={"Password"} type={"password"} setText={setPassword} value={password}/>
-                <CustomInput placeholder={"Confirm Password"} type={"password"} setText={setConfirm} value={confirm}/>
+                <CustomInput placeholder={"Password"} setText={setPassword} value={password} secure={true}/>
+                <CustomInput placeholder={"Confirm Password"} setText={setConfirm} value={confirm} secure={true}/>
                 <CustomButton myText={"Register"} onPress={register}/>
             </View>
         </View>

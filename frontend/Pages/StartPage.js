@@ -3,12 +3,11 @@ import {Text, TextInput, View, StyleSheet, Alert} from 'react-native';
 import CustomInput from '../Components/CustomInput';
 import CustomButton from '../Components/ButtonComponent';
 import styles from '../Components/Styles';
-import {AuthenticatedContext} from "../../backend/Contexts";
+import {ChildAuthenticatedContext,AuthenticatedContext} from "../../backend/Contexts";
 import {NavigationContainer} from "@react-navigation/native";
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
 
 const StartPage = ({props, navigation }) => {
-    const { authenticated, setAuthenticated } = useContext(AuthenticatedContext);
     const [pairingCode, setPairingCode] = useState("");
     const [ email,  setEmail ] = useState("");
     const [ password,  setPassword ] = useState("");
@@ -22,22 +21,33 @@ const StartPage = ({props, navigation }) => {
 
         // TODO: Ensure account is real
         // FOR PAGE TESTING PURPOSES
+        //setAuthenticated(true);
         navigation.navigate('ParentDashboard');
         // FOR PAGE TESTING PURPOSES
 
+        setEmail("");
+        setPairingCode("");
+        setPassword("");
     }
 
     async function validateChildAccount() {
-
         if (pairingCode == ""){
             Alert.alert("Code cannot be blank.");
             return;
         }
 
+        //setChildAuthenticated(true);
+
         // TODO: Ensure code is real
         // FOR PAGE TESTING PURPOSES
         navigation.navigate('ChildInfo');
+
         // FOR PAGE TESTING PURPOSES
+
+        setEmail("");
+        setPairingCode("");
+        setPassword("");
+
     }
 
     return (
@@ -49,8 +59,7 @@ const StartPage = ({props, navigation }) => {
             <View style={styles.child}>
                 <Text style={styles.text}>Sign In</Text>
                 <CustomInput placeholder={"Email"} setText={(text) => setEmail(text)} value={email}/>
-
-                <CustomInput placeholder={"Password"} setText={(text) => setPassword(text)} value={password}/>
+                <CustomInput placeholder={"Password"} setText={(text) => setPassword(text)} value={password} secure={true}/>
                 <CustomButton myText={"Sign In"} onPress={validateParentAccount} ></CustomButton>
             </View>
 

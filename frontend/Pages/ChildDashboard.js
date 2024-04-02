@@ -1,51 +1,49 @@
 import React, { useState } from 'react';
 import { Animated, Text, TextInput, View } from 'react-native';
-import CustomInput from '../Components/CustomInput';
-import CustomButton from '../Components/ButtonComponent';
 import CustomCircleButton from '../Components/CircleButtonComponent';
 import CustomBoxWithText from '../Components/CustomBoxWithTextComponent';
 import styles from "../Components/Styles";
 
-const colorDarkPurple = '#23027D'; //
-const colorRoyalPurple = '#6E19FF'; // 
-const colorLightPurple = '#D8CCFF'; //
-const colorWhite = '#FFFFFF'; // 
-const colorGray = '#707070'; // 
-const colorBlack = '#000000'; //
+const ChildDashboardPage = () => {
+    const[animatePress, setAnimatePress] = useState(new Animated.Value(1));
+    
+    function resetTimer(){
+        // animate the button here
+        Animated.timing(animatePress, {
+            toValue: 0.8,
+            duration:200,
+            useNativeDriver: true
+        }).start()
 
-const ChildInfoPage = ({ navigation }) => {
-    const [name, setName] = useState("");
 
-    async function validateName() {
+        // Reset timer here
 
-        if (name == ""){
-            Alert.alert("Code cannot be blank.");
-            return;
-        }
+    }
 
-        // TODO: Ensure code is real
-        // FOR PAGE TESTING PURPOSES
-        navigation.navigate('ChildDashboard');
-        // FOR PAGE TESTING PURPOSES
+    function resetButton(){
+        // animate the button here
+        Animated.timing(animatePress, {
+            toValue: 1.0,
+            duration:200,
+            useNativeDriver: true
+        }).start()
+
     }
 
     return (
         <View style={styles.centeredContainer}>
             <Text style={styles.centeredHeadline}>Tap the button below to check in with your loved one.</Text>
 
-            <Animated.View style = {{transform:[{scale: this.state.animatePress}]}}
+            <Animated.View style = {{transform:[{scale: animatePress}]}}
             ><CustomCircleButton myText = {"TAP"} onPressIn={() => resetTimer()} onPressOut={() => resetButton()}></CustomCircleButton></Animated.View>
             <Text style={styles.centeredText}></Text><Text style={styles.centeredText}></Text>
             <Text style={styles.centeredText}>Check back in at </Text>
 
             <CustomBoxWithText myText = {"Time"}></CustomBoxWithText>
 
-            <Text style={styles.centeredHeadline}>Please enter your name to continue.</Text>
-            <CustomInput placeholder={"Enter your name"} setText={setName} value={name}/>
-            <CustomButton myText={"Confirm"} onPress={validateName}></CustomButton>
         </View>
     );
 
 }
 
-export default ChildInfoPage;
+export default ChildDashboardPage;

@@ -6,7 +6,7 @@ import styles from "../Components/Styles";
 import {Text, View} from "react-native";
 import CustomInput from "../Components/CustomInput";
 
-const Logout = () => {
+const Logout = ({ navigation }) => {
     const { authenticated, setAuthenticated } = useContext(AuthenticatedContext);
 
     return (
@@ -16,7 +16,7 @@ const Logout = () => {
             </View>
 
             <View style={styles.child}>
-                <CustomButton myText={"Sign out"} onPress={() => setAuthenticated(false)} ></CustomButton>
+                <CustomButton myText={"Sign out"} onPress={() => navigation.navigate('RegisterSignIn')} ></CustomButton>
             </View>
         </View>    )
 }
