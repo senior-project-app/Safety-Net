@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Animated, Text, TextInput, View } from 'react-native';
 import CustomInput from '../Components/CustomInput';
 import CustomButton from '../Components/ButtonComponent';
-import CustomBackButton from '../Components/BackButtonComponent';
 import CustomCircleButton from '../Components/CircleButtonComponent';
 import CustomBoxWithText from '../Components/CustomBoxWithTextComponent';
 import styles from "../Components/Styles";
@@ -14,34 +13,22 @@ const colorWhite = '#FFFFFF'; //
 const colorGray = '#707070'; // 
 const colorBlack = '#000000'; //
 
-const ChildDashboardPage = () => {
-    state = {
-        animatePress: new Animated.Value(1),
+const ChildInfoPage = ({ navigation }) => {
+    const [name, setName] = useState("");
+
+    async function validateName() {
+
+        if (name == ""){
+            Alert.alert("Code cannot be blank.");
+            return;
+        }
+
+        // TODO: Ensure code is real
+        // FOR PAGE TESTING PURPOSES
+        navigation.navigate('ChildDashboard');
+        // FOR PAGE TESTING PURPOSES
     }
 
-   function resetTimer(){
-        // animate the button here
-        Animated.timing(this.state.animatePress, {
-            toValue: 0.8,
-            duration:200,
-            useNativeDriver: true
-        }).start()
-
-
-        // Reset timer here
-    
-    }
-
-    function resetButton(){
-        // animate the button here
-        Animated.timing(this.state.animatePress, {
-            toValue: 1.0,
-            duration:200,
-            useNativeDriver: true
-        }).start()
-    
-    }
-    
     return (
         <View style={styles.centeredContainer}>
             <Text style={styles.centeredHeadline}>Tap the button below to check in with your loved one.</Text>
@@ -53,9 +40,12 @@ const ChildDashboardPage = () => {
 
             <CustomBoxWithText myText = {"Time"}></CustomBoxWithText>
 
+            <Text style={styles.centeredHeadline}>Please enter your name to continue.</Text>
+            <CustomInput placeholder={"Enter your name"} setText={setName} value={name}/>
+            <CustomButton myText={"Confirm"} onPress={validateName}></CustomButton>
         </View>
     );
 
 }
 
-export default ChildDashboardPage;
+export default ChildInfoPage;
