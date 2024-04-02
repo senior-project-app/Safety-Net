@@ -54,7 +54,7 @@ function Register({ navigation }) {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={styles.centeredContainer}>
             <View>
                 <Text style={styles.logo}>SafetyNet</Text>
             </View>

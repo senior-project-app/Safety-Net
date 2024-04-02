@@ -19,6 +19,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: alternativeBgColor,
     },
+    centeredContainer: {
+        flex: 1,
+        justifyContent: "center", // for spacing on the vertical
+        alignItems: "center",
+        backgroundColor: alternativeBgColor,
+    },
     child: {
         width: "75%" // makes children be the same width
     },
@@ -32,6 +38,22 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter_500Medium',
         fontSize: 20,
         fontWeight: 'regular',
+        color: colorDarkPurple,
+    },
+    centeredText: {
+        //alignSelf: "flex-start",
+        textAlign: "center",
+        fontFamily: 'Inter_500Medium',
+        fontSize: 20,
+        fontWeight: 'regular',
+        color: colorDarkPurple,
+    },
+    centeredHeadline: {
+        //alignSelf: "flex-start",
+        textAlign: "center",
+        fontFamily: 'Inter_500Medium',
+        fontSize: 25,
+        fontWeight: 'bold',
         color: colorDarkPurple,
     },
     logo: {
@@ -48,6 +70,18 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
         fontSize: 16,
+        color: '#23027D',
+        borderColor: '#23027D',
+        backgroundColor: '#FFFFFF',
+    },
+    purpleTextBox: {
+        textAlign: 'center',
+        borderWidth: 2,
+        borderRadius: 9,
+        padding: 15,
+        marginTop: 10,
+        marginBottom: 10,
+        fontSize: 30,
         color: '#23027D',
         borderColor: '#23027D',
         backgroundColor: '#FFFFFF',

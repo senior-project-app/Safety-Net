@@ -14,10 +14,16 @@ const CustomCircleButton = (props) => {
     return (
         <View style={styles.purplebutton}>
             <Pressable
-                onPress={() => {
+                onPressIn={() => {
                     setPressed(!wasPressed);
-                    props.onPress();
-                }}>
+                    props.onPressIn();
+                }}
+                onPressOut={() => {
+                    setPressed(!wasPressed);
+                    props.onPressOut();
+                }}
+                
+                >
                 <Text style={styles.purpleButton}>{props.myText}</Text>
                 
             </Pressable>

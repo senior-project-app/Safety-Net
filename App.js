@@ -7,83 +7,84 @@ import StartPage from './frontend/Pages/StartPage';
 import ParentInfo from "./frontend/Pages/ParentInfo";
 import ChildInfo from "./frontend/Pages/ChildInfo";
 import SignIn from "./frontend/Pages/SignIn";
-
-import {Image, View} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import {Image, View, Text} from 'react-native';
 import {useFonts, Inter_900Black, Inter_500Medium} from '@expo-google-fonts/inter';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import styles from './frontend/Components/Styles';
 import {useState} from "react";
 import {AuthenticatedContext} from "./backend/Contexts";
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 
-export default function App() {
-  const Stack = createNativeStackNavigator();
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-  const MyStack = () => { // Stack navigator
+const Stack = createNativeStackNavigator();
 
-    return (
-      <NavigationContainer>
-      {
-            <Stack.Navigator initialRouteName="StartPage">;
-            <Stack.Screen name="Register" component={Register} /*options={{title: 'Boot'}}*/ />
-            <Stack.Screen name="SignIn" component={SignIn} /*options={{title: 'Boot'}}*/ />
-            <Stack.Screen name="StartPage" component={StartPage} /*options={{title: 'Boot'}}*/ />
-            <Stack.Screen name="ParentInfo" component={ParentInfo} /*options={{title: 'Boot'}}*/ />
-            <Stack.Screen name="ParentDashboard" component={ParentDashboard} /*options={{title: 'Boot'}}*/ />
-            <Stack.Screen name="ChildInfo" component={ChildInfo} /*options={{title: 'Boot'}}*/ />
-            <Stack.Screen name="ChildDashboard" component={ChildDashboard} /*options={{title: 'Boot'}}*/ />
-          </Stack.Navigator> 
-      }
-    </NavigationContainer>
-    );
-  };
+function App() {
+
+  const [authenticated, setAuthenticated] = useState(false);
+  const [user, setUser] = useState({type: "parent"});
+
+  let [fontsLoaded, fontError] = useFonts({
+      Inter_900Black,
+      Inter_500Medium
+  });
+
+  if (!fontsLoaded) return null;
+
+  const Tab = createBottomTabNavigator();
   
-    const [authenticated, setAuthenticated] = useState(false);
-    const [user, setUser] = useState({type: "parent"});
-
-    let [fontsLoaded, fontError] = useFonts({
-        Inter_900Black,
-        Inter_500Medium
-    });
-
-    if (!fontsLoaded) return null;
-
-    const Tab = createBottomTabNavigator();
-
-
-if(!authenticated) {
-        return ( // user is not authenticated, show login/register pages
+  if(!authenticated) {
+    return ( // user is not authenticated, show login/register pages
+        <NavigationContainer>
+            <AuthenticatedContext.Provider value={{ authenticated: authenticated, setAuthenticated: setAuthenticated }}>
+            <Stack.Navigator>
+            <Stack.Screen
+              name="RegisterSignIn"
+              component={RegisterSignIn}
+              options={{ headerShown: false }}
+            />
+                <Stack.Screen name="ParentInfo" component={ParentInfo}  />
+                <Stack.Screen name="ParentDashboard" component={ParentDashboard} />
+                <Stack.Screen name="ChildInfo" component={ChildInfo} />
+                <Stack.Screen name="ChildDashboard" component={ChildDashboard} />
+            </Stack.Navigator> 
+            </AuthenticatedContext.Provider>
+        </NavigationContainer>
+    );
+} else {
+    if(user.type==="parent") {
+        return ( // user is authenticated and the parent user
             <NavigationContainer>
-                <AuthenticatedContext.Provider value={{ authenticated: authenticated, setAuthenticated: setAuthenticated }}>
-                    <Tab.Navigator screenOptions={{headerShown: false }}>
-                        <Tab.Screen name={"Login"} component={StartPage}/>
-                        <Tab.Screen name={"Register"} component={Register}/>
-                    </Tab.Navigator>
-                </AuthenticatedContext.Provider>
+                <Tab.Navigator screenOptions={{headerShown: false }}>
+                    <Tab.Screen name={"Dashboard"} component={ParentDashboard} setAuthenticated={setAuthenticated} />
+                </Tab.Navigator>
             </NavigationContainer>
         );
     } else {
-        if(user.type==="parent") {
-            return ( // user is authenticated and the parent user
-                <NavigationContainer>
-                    <Tab.Navigator screenOptions={{headerShown: false }}>
-                        <Tab.Screen name={"Dashboard"} component={ParentDashboard} setAuthenticated={setAuthenticated} />
-                    </Tab.Navigator>
-                </NavigationContainer>
-            );
-        } else {
-            return ( // user is authenticated and a child (supervised) user
-                <NavigationContainer>
-                    <Tab.Navigator screenOptions={{headerShown: false }}>
-                        <Tab.Screen name={"Dashboard"} component={ChildDashboard} setAuthenticated={setAuthenticated} />
-                    </Tab.Navigator>
-                </NavigationContainer>
-            );
-        }
+        return ( // user is authenticated and a child (supervised) user
+            <NavigationContainer>
+                <Tab.Navigator screenOptions={{headerShown: false }}>
+                    <Tab.Screen name={"Dashboard"} component={ChildDashboard} setAuthenticated={setAuthenticated} />
+                </Tab.Navigator>
+            </NavigationContainer>
+        );
     }
+}
 
 
+function RegisterSignIn() {
+  const Tab = createBottomTabNavigator();
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="SignIn" component={StartPage} />
+      <Tab.Screen name="Register" component={Register} />
+    </Tab.Navigator>
+  );
+}
 
 }
+
+export default App;
