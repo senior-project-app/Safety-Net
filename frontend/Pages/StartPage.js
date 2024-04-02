@@ -49,6 +49,7 @@ const StartPage = ({props, navigation }) => {
             <View style={styles.child}>
                 <Text style={styles.text}>Sign In</Text>
                 <CustomInput placeholder={"Email"} setText={(text) => setEmail(text)} value={email}/>
+
                 <CustomInput placeholder={"Password"} setText={(text) => setPassword(text)} value={password}/>
                 <CustomButton myText={"Sign In"} onPress={validateParentAccount} ></CustomButton>
             </View>

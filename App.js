@@ -1,4 +1,3 @@
-
 import 'react-native-gesture-handler';
 import ParentDashboard from "./frontend/Pages/ParentDashboard";
 import ChildDashboard from "./frontend/Pages/ChildDashboard";
@@ -14,9 +13,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import styles from './frontend/Components/Styles';
 import {useState} from "react";
 import {AuthenticatedContext} from "./backend/Contexts";
-
-
-import * as React from 'react';
+import Logout from "./frontend/Pages/Logout";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
