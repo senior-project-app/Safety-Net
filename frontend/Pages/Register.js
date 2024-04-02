@@ -68,6 +68,7 @@ function Register({ navigation }) {
                 <Text style={styles.text}>Register</Text>
                 <CustomInput placeholder={"Name"} setText={setName} value={name}/>
                 <CustomInput placeholder={"Email"} setText={setEmail} value={email}/>
+
                 <CustomInput placeholder={"Password"} setText={setPassword} value={password} secure={true}/>
                 <CustomInput placeholder={"Confirm Password"} setText={setConfirm} value={confirm} secure={true}/>
                 <CustomButton myText={"Register"} onPress={register}/>
