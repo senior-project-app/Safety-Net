@@ -13,7 +13,7 @@ function CustomInput({ setText, value, placeholder, secure }) {
             onFocus={ () => {
                 setPlaceholder("");
 
-                if(placeholder==="Password") setSecureLocal(true);
+                if(placeholder==="Password" || placeholder==="Confirm Password") setSecureLocal(true);
             }}
             onBlur={ () => {
                 setPlaceholder(placeholder);

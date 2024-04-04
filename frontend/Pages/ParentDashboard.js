@@ -12,7 +12,8 @@ const ParentDashboardPage = () => {
 
             <View style={styles.child}>
                 <Text style={styles.text}>DemoChildUser</Text>
-                <TimeSelector text={"Set Check-In Interval"}/>
+                <TimeSelector text={"Set Check-In Interval Start"}/>
+                <TimeSelector text={"Set Check-In Interval End"}/>
             </View>
 
             <View style={styles.child}>
