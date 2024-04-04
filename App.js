@@ -68,23 +68,23 @@ export default function App() {
         );
     }
 
-    function ParentLoginLogout() {
-        const Tab = createBottomTabNavigator();
-        return (
-            <Tab.Navigator screenOptions={{headerShown: false }}>
-                <Tab.Screen options={{ tabBarIcon: () => (<Image source={require('./assets/icons/home.png')} />) }} name="Home" component={ParentDashboard} />
-                <Tab.Screen options={{ tabBarIcon: () => (<Image source={require('./assets/icons/logout.png')} />) }} name="Sign out" component={Logout} />
-            </Tab.Navigator>
-        );
-    }
+  function ParentLoginLogout() {
+    const Tab = createBottomTabNavigator();
+    return (
+      <Tab.Navigator screenOptions={{headerShown: false }}>
+        <Tab.Screen options={{ tabBarIcon: () => (<Image source={require('./assets/icons/home.png')} />) }} name="Home" component={ParentDashboard} />
+        <Tab.Screen options={{ tabBarIcon: () => (<Image source={require('./assets/icons/logout.png')} />) }} name="Sign out" component={Logout} />
+    </Tab.Navigator>
+    );
+  }
 
-    function ChildLoginLogout() {
-        const Tab = createBottomTabNavigator();
-        return (
-            <Tab.Navigator screenOptions={{headerShown: false }}>
-                <Tab.Screen options={{ tabBarIcon: () => (<Image source={require('./assets/icons/home.png')} />) }} name="Home" component={ChildDashboard} />
-                <Tab.Screen options={{ tabBarIcon: () => (<Image source={require('./assets/icons/logout.png')} />) }} name="Sign out" component={Logout} />
-            </Tab.Navigator>
-        );
-    }
+  function ChildLoginLogout() {
+    const Tab = createBottomTabNavigator();
+    return (
+      <Tab.Navigator screenOptions={{headerShown: false }}>
+          <Tab.Screen options={{ tabBarIcon: () => (<Image source={require('./assets/icons/home.png')} />) }} name="Home" component={ChildDashboard} />
+          <Tab.Screen options={{ tabBarIcon: () => (<Image source={require('./assets/icons/logout.png')} />) }} name="Sign out" component={Logout} />
+    </Tab.Navigator>
+    );
+  }
 }

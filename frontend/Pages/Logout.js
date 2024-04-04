@@ -7,8 +7,6 @@ import {Text, View} from "react-native";
 import CustomInput from "../Components/CustomInput";
 
 const Logout = ({ navigation }) => {
-    const { authenticated, setAuthenticated } = useContext(AuthenticatedContext);
-
     return (
         <View style={styles.container}>
             <View>

@@ -14,7 +14,6 @@ const colorBlack = '#000000'; //
 const ChildInfoPage = ({ navigation }) => {
     const [name, setName] = useState("");
 
-
     async function validateName() {
 
         if (name == ""){

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
 import CustomInput from '../Components/CustomInput';
 import CustomButton from '../Components/ButtonComponent';
+import ParentDashboardPage from "./ParentDashboard";
 
 const colorDarkPurple = '#23027D'; //
 const colorRoyalPurple = '#6E19FF'; // 
@@ -31,6 +32,17 @@ const SignInPage = () => {
             <CustomButton myText={"Sign in"} onPress={() => navigation.navigate('ParentDashboard')}></CustomButton>
         </View>
     );
+
+    function goToParentDashboard(){
+        setEmail("");
+        setPassword("");
+
+        return (
+            <View>
+              <ParentDashboardPage/>
+            </View>
+        );
+    }
 }
 
 export default SignInPage;
