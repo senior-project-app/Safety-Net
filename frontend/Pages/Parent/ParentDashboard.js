@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Text, TextInput, View } from 'react-native';
-import styles from "../Components/Styles";
-import TimeSelector from "../Components/TimeSelector";
+import React from 'react';
+import { Text, View } from 'react-native';
+import TimeSelector from "../../Components/TimeSelector";
+import styles from "../../Components/Styles";
 
 const ParentDashboardPage = () => {
     return (

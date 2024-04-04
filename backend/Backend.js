@@ -1,5 +1,5 @@
 const express = require('express');
-const Supervisor = require('./backend/supervisor.js');
+const Supervisor = require('./Supervisor.js');
 
 const app = express();
 const port = process.env.PORT || 5000;

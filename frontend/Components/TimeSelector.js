@@ -1,33 +1,30 @@
 import {useState} from "react";
-import {Button, Text, View} from "react-native";
-import CustomButton from "./ButtonComponent";
+import {Text, View} from "react-native";
+import Button from "./Button";
 import {DateTimePickerAndroid} from "@react-native-community/datetimepicker";
 
 const TimeSelector = ({text}) => {
     const [date, setDate] = useState(new Date(1598051730000));
+    const [time, setTime] = useState("");
 
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate;
-        setDate(currentDate);
-    };
+    function onChange(event, selectedDate) {
+        setDate(selectedDate);
+        setTime(selectedDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
+    }
 
-    const showMode = (currentMode) => {
+    function showTimeSelect() {
         DateTimePickerAndroid.open({
             value: date,
             onChange,
-            mode: currentMode,
+            mode: 'time',
             is24Hour: false,
         });
-    };
-
-    const showTimepicker = () => {
-        showMode('time');
-    };
+    }
 
     return (
         <View>
-            <CustomButton myText={text} onPress={showTimepicker}/>
-            <Text>selected: {date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</Text>
+            <Button myText={text} onPress={showTimeSelect}/>
+            <Text>selected: {time}</Text>
         </View>
     )
 

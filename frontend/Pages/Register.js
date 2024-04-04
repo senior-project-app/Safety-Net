@@ -1,20 +1,35 @@
-import React, {useContext, useState} from 'react';
-import { Text, View, Alert} from 'react-native';
-import CustomInput from "../Components/CustomInput";
-import CustomButton from "../Components/ButtonComponent";
-import {AuthenticatedContext} from "../../backend/Contexts";
+import React, {useState} from 'react';
+import {Text, View, Alert} from 'react-native';
+import Input from "../Components/Input";
+import Button from "../Components/Button";
 import styles from "../Components/Styles";
 import axios from 'axios';
 
-function Register({ navigation }) {
-    const { authenticated, setAuthenticated } = useContext(AuthenticatedContext);
-    const [ name,  setName ] = useState("");
-    const [ email,  setEmail ] = useState("");
-    const [ password,  setPassword ] = useState("");
-    const [ confirm,  setConfirm ] = useState("");
+function Register({navigation}) {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirm, setConfirm] = useState("");
+
+    async function validateAndRegister() {
+        // check that all values are defined
+        if (!name || !email || !password || !confirm) return Alert.alert("Fields cannot be blank.");
+
+        // check that passwords match
+        if (password !== confirm) return Alert.alert("Passwords must match!");
+
+        // everything is good, try to register the user
+        await register()
+            .then((res) => {
+                console.log("success");
+            })
+            .catch((err) => {
+                // failure
+                console.log("failure");
+            });
+    }
 
     async function register() {
-
         const url = "http://172.16.134.148:5000/register"; // TODO: UPDATE WHEN WE DEMO, MUST BE DEVICE LOCAL IP
         const data = {
             name: name,
@@ -22,40 +37,8 @@ function Register({ navigation }) {
             password: password,
         }
 
-        if (password != confirm){
-            Alert.alert("Passwords must match!");
-            return;
-        }
-        if (password == "" || name == "" || email == ""){
-            Alert.alert("Fields cannot be blank.");
-            return;
-        }
-
-        setConfirm("");
-        setEmail("");
-        setName("");
-        setPassword("");
-
-
-        // TODO: Store user in database
-        // FOR PAGE TESTING PURPOSES
-        navigation.navigate('ParentInfo');
-        // FOR PAGE TESTING PURPOSES
-
-
-
-        axios.post(url, data)
-            .then((res) => {
-                // success, authenticate user
-                setAuthenticated(true);
-
-                navigation.navigate('ParentInfo');
-
-            })
-            .catch((err) => {
-                // report error
-            });
-
+        // register user in db
+        return axios.post(url, data);
     }
 
     return (
@@ -66,14 +49,15 @@ function Register({ navigation }) {
 
             <View style={styles.child}>
                 <Text style={styles.text}>Register</Text>
-                <CustomInput placeholder={"Name"} setText={setName} value={name}/>
-                <CustomInput placeholder={"Email"} setText={setEmail} value={email}/>
+                <Input placeholder={"Name"} setValue={setName} value={name}/>
+                <Input placeholder={"Email"} setValue={setEmail} value={email}/>
 
-                <CustomInput placeholder={"Password"} setText={setPassword} value={password} secure={true}/>
-                <CustomInput placeholder={"Confirm Password"} setText={setConfirm} value={confirm} secure={true}/>
-                <CustomButton myText={"Register"} onPress={register}/>
+                <Input placeholder={"Password"} setValue={setPassword} value={password} secure={true}/>
+                <Input placeholder={"Confirm Password"} setValue={setConfirm} value={confirm} secure={true}/>
+                <Button text={"Register"} onPress={validateAndRegister}/>
             </View>
         </View>
     );
 }
+
 export default Register;

@@ -1,102 +1,101 @@
 import {StyleSheet} from "react-native";
 
-const colorDarkPurple = '#23027D'; //
-const colorRoyalPurple = '#6E19FF'; //
-const colorWhite = '#FFFFFF'; //
-const colorGray = '#707070'; //
-const colorBlack = '#FFFFFF'; //
-const colorLightPurple = '#D8CCFF'; //
-const alternativeBgColor = '#FFFFFF';
+// colors
+const darkPurple = '#23027D';
+const royalPurple = '#6E19FF';
+const white = '#FFFFFF';
+const backgroundColor = '#FFFFFF';
+
+// font types
+const TEXT_FONT_FAMILY = "Inter_500Medium";
+const LOGO_FONT_FAMILY = "Inter_900Black";
+
+// font sizes
+const TEXT_FONT_SIZE = 20;
+const TEXT_INPUT_FONT_SIZE = 15;
+const HEADLINE_FONT_SIZE = 25;
+const LOGO_FONT_SIZE = 40;
+
+// child constants
+const CHILD_MARGINS = 20;
+const CHILD_MAX_WIDTH = "75%";
+
+// margin and padding defaults
+const DEFAULT_PADDING = 10;
+const DEFAULT_MARGIN = 10;
+
+// rounded corner constants
+const BORDER_ROUNDED = 9;
 
 const styles = StyleSheet.create({
     appContainer: {
         flex: 1,
-        backgroundColor: alternativeBgColor,
+        backgroundColor: backgroundColor,
     },
     container: {
         flex: 1,
         justifyContent: "space-evenly", // for spacing on the vertical
         alignItems: "center",
-        backgroundColor: alternativeBgColor,
+        backgroundColor: backgroundColor,
     },
     centeredContainer: {
         flex: 1,
         justifyContent: "center", // for spacing on the vertical
         alignItems: "center",
-        backgroundColor: alternativeBgColor,
+        backgroundColor: backgroundColor,
     },
     child: {
-        width: "75%" // makes children be the same width
+        margin: CHILD_MARGINS,
+        width: CHILD_MAX_WIDTH // makes children be the same width
     },
     registerButton: {
-        fontFamily: 'Inter_500Medium',
-        fontWeight: 'regular',
+        fontFamily: TEXT_FONT_FAMILY,
         color: "blue",
     },
     text: {
         alignSelf: "flex-start",
-        fontFamily: 'Inter_500Medium',
-        fontSize: 20,
-        fontWeight: 'regular',
-        color: colorDarkPurple,
+        fontFamily: TEXT_FONT_FAMILY,
+        fontSize: TEXT_FONT_SIZE,
+        color: darkPurple,
     },
     centeredText: {
-        //alignSelf: "flex-start",
         textAlign: "center",
-        fontFamily: 'Inter_500Medium',
-        fontSize: 20,
-        fontWeight: 'regular',
-        color: colorDarkPurple,
+        fontFamily: TEXT_FONT_FAMILY,
+        fontSize: TEXT_FONT_SIZE,
+        color: darkPurple,
     },
     centeredHeadline: {
-        //alignSelf: "flex-start",
         textAlign: "center",
-        fontFamily: 'Inter_500Medium',
-        fontSize: 25,
-        fontWeight: 'bold',
-        color: colorDarkPurple,
+        fontFamily: TEXT_FONT_FAMILY,
+        fontSize: HEADLINE_FONT_SIZE,
+        color: darkPurple,
     },
     logo: {
-        fontFamily: 'Inter_900Black',
-        fontSize: 40,
-        fontWeight: 'regular',
-        color: colorDarkPurple,
+        fontFamily: LOGO_FONT_FAMILY,
+        fontSize: LOGO_FONT_SIZE,
+        color: darkPurple,
     },
     purpleInput: {
-        textAlign: 'center',
         borderWidth: 2,
-        borderRadius: 9,
-        padding: 15,
-        marginTop: 10,
-        marginBottom: 10,
-        fontSize: 16,
-        color: '#23027D',
-        borderColor: '#23027D',
-        backgroundColor: '#FFFFFF',
-    },
-    purpleTextBox: {
-        textAlign: 'center',
-        borderWidth: 2,
-        borderRadius: 9,
-        padding: 15,
-        marginTop: 10,
-        marginBottom: 10,
-        fontSize: 30,
-        color: '#23027D',
-        borderColor: '#23027D',
-        backgroundColor: '#FFFFFF',
+        borderRadius: BORDER_ROUNDED,
+        padding: DEFAULT_PADDING,
+        marginTop: DEFAULT_MARGIN,
+        marginBottom: DEFAULT_MARGIN,
+        fontSize: TEXT_INPUT_FONT_SIZE,
+        color: darkPurple,
+        borderColor: darkPurple,
+        backgroundColor: backgroundColor,
     },
     purpleButton: {
         textAlign: 'center',
-        maxWidth: "100%",
-        padding: 10,
-        marginTop: 10,
-        marginBottom: 10,
-        borderRadius: 9,
-        fontSize: 16,
-        color: colorWhite,
-        borderColor: colorDarkPurple,
-        backgroundColor: colorRoyalPurple,
+        padding: DEFAULT_PADDING,
+        marginTop: DEFAULT_MARGIN,
+        marginBottom: DEFAULT_MARGIN,
+        borderRadius: BORDER_ROUNDED,
+        fontSize: TEXT_INPUT_FONT_SIZE,
+        color: white,
+        borderColor: darkPurple,
+        backgroundColor: royalPurple,
     },
 });
 

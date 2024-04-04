@@ -1,42 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
-const Supervised = require("./supervised.js");
+const Supervised = require("./Supervised.js");
 const SALT_FACTOR = 10;
-
-const supervisorSchema = new Schema({
-    name: { type: String, unique: false, required: true },
-    email: { type: String, unique: true, required: true },
-    password: { type: String, unique: false, required: true },
-    inviteCode: { type: String, unique: true, required: true },
-    supervised: [Supervised]
-});
-
-// hash the password before saving it to the database
-supervisorSchema.pre('save', function(done) {
-    let supervisor = this;
-    // only hash the password if it has been modified (or is new)
-    if (!supervisor.isModified("password")) return done();
-    
-    bcrypt.genSalt(SALT_FACTOR, (err, salt) => {
-        if (err) return done(err);
-        
-        bcrypt.hash(supervisor.password, salt, (err, hash) => {
-            if (err) return done(err);
-            
-            supervisor.password = hash;
-            done();
-        });
-    });
-});
-
-// compare the password entered by the user with the hashed password stored in the database
-supervisorSchema.methods.comparePassword = function(candidatePassword, cb) {
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-        if (err) return cb(err);
-        cb(null, isMatch);
-    });
-};
 
 class Supervisor {
     static Model = mongoose.model('Supervisor', supervisorSchema, 'supervisors');
@@ -94,5 +60,39 @@ class Supervisor {
         });
     }
 }
+
+const supervisorSchema = new Schema({
+    name: { type: String, unique: false, required: true },
+    email: { type: String, unique: true, required: true },
+    password: { type: String, unique: false, required: true },
+    inviteCode: { type: String, unique: true, required: true },
+    supervised: [Supervised]
+});
+
+// hash the password before saving it to the database
+supervisorSchema.pre('save', function(done) {
+    let supervisor = this;
+    // only hash the password if it has been modified (or is new)
+    if (!supervisor.isModified("password")) return done();
+
+    bcrypt.genSalt(SALT_FACTOR, (err, salt) => {
+        if (err) return done(err);
+
+        bcrypt.hash(supervisor.password, salt, (err, hash) => {
+            if (err) return done(err);
+
+            supervisor.password = hash;
+            done();
+        });
+    });
+});
+
+// compare the password entered by the user with the hashed password stored in the database
+supervisorSchema.methods.comparePassword = function(candidatePassword, cb) {
+    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+        if (err) return cb(err);
+        cb(null, isMatch);
+    });
+};
 
 module.exports = Supervisor;

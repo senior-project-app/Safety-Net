@@ -1,10 +1,6 @@
-import ButtonComponent from "../Components/ButtonComponent";
-import CustomButton from "../Components/ButtonComponent";
-import {AuthenticatedContext} from "../../backend/Contexts";
-import {useContext} from "react";
-import styles from "../Components/Styles";
 import {Text, View} from "react-native";
-import CustomInput from "../Components/CustomInput";
+import Button from "../Components/Button";
+import styles from "../Components/Styles";
 
 const Logout = ({ navigation }) => {
     return (
@@ -14,9 +10,10 @@ const Logout = ({ navigation }) => {
             </View>
 
             <View style={styles.child}>
-                <CustomButton myText={"Sign out"} onPress={() => navigation.navigate('RegisterSignIn')} ></CustomButton>
+                <Button myText={"Sign out"} onPress={() => navigation.navigate('RegisterSignIn')} ></Button>
             </View>
-        </View>    )
+        </View>
+    )
 }
 
 export default Logout;
