@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ChildDashboard from "./frontend/Pages/Child/ChildDashboard";
 import ParentEmailVerification from "./frontend/Pages/Parent/ParentEmailVerification";
 import UnauthenticatedUser from "./frontend/Navigation/UnauthenticatedUser";
+import makePushNotification from './backend/PushNotifications';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -16,9 +17,11 @@ export default function App() {
         Inter_500Medium
     });
 
-    if (!fontsLoaded) return null;
+    if (!fontsLoaded) {return null;}
 
-    return (
+    makePushNotification();
+
+    /*return (
         <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen name="UnauthenticatedUser" component={UnauthenticatedUser} options={{ headerShown: false }} />
@@ -30,6 +33,6 @@ export default function App() {
                 <Stack.Screen name="ChildDashboard" component={ChildDashboard} options={{ headerShown: false }}/>
             </Stack.Navigator>
         </NavigationContainer>
-    );
+    );*/
 }
 
