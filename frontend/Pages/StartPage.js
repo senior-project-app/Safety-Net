@@ -9,11 +9,11 @@ const StartPage = ({ navigation }) => {
         <View style={styles.centeredContainer}>
             <Text style={styles.logo}>SafetyNet</Text>
 
-            <ParentSignIn/>
+            <ParentSignIn navigation={navigation}/>
 
             <Text>or</Text>
 
-            <ChildSignIn/>
+            <ChildSignIn navigation={navigation}/>
 
             <Text>Don't have an account?
                 <Text style={styles.registerButton} onPress={() => navigation.navigate('Register')}> Register</Text>

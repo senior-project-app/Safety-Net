@@ -1,6 +1,7 @@
 import {Text, View} from "react-native";
 import Button from "../Components/Button";
 import styles from "../Components/Styles";
+import {supabase} from "../../backend/database";
 
 const Logout = ({ navigation }) => {
     return (
@@ -10,7 +11,7 @@ const Logout = ({ navigation }) => {
             </View>
 
             <View style={styles.child}>
-                <Button myText={"Sign out"} onPress={() => navigation.navigate('RegisterSignIn')} ></Button>
+                <Button text={"Sign out"} onPress={() => supabase.auth.signOut()} ></Button>
             </View>
         </View>
     )

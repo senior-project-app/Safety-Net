@@ -8,7 +8,7 @@ function AuthenticatedParent({ navigation }) {
     const Tab = createBottomTabNavigator();
     return (
         <Tab.Navigator screenOptions={{headerShown: false }}>
-            <Tab.Screen options={{ tabBarIcon: () => (<Image source={HOME_ICON} />) }} name="ParentDashboard" component={ParentDashboard} />
+            <Tab.Screen options={{ tabBarIcon: () => (<Image source={HOME_ICON} />) }} name="Dashboard" component={ParentDashboard} />
             <Tab.Screen options={{ tabBarIcon: () => (<Image source={LOGOUT_ICON} />) }} name="Logout" component={Logout} />
         </Tab.Navigator>
     );

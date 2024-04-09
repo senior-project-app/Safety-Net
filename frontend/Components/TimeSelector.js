@@ -23,7 +23,7 @@ const TimeSelector = ({text}) => {
 
     return (
         <View>
-            <Button myText={text} onPress={showTimeSelect}/>
+            <Button text={text} onPress={showTimeSelect}/>
             <Text>selected: {time}</Text>
         </View>
     )

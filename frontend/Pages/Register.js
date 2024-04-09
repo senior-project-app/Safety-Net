@@ -4,6 +4,7 @@ import Input from "../Components/Input";
 import Button from "../Components/Button";
 import styles from "../Components/Styles";
 import axios from 'axios';
+import {supabase} from "../../backend/database";
 
 function Register({navigation}) {
     const [name, setName] = useState("");
@@ -19,26 +20,23 @@ function Register({navigation}) {
         if (password !== confirm) return Alert.alert("Passwords must match!");
 
         // everything is good, try to register the user
-        await register()
-            .then((res) => {
-                console.log("success");
-            })
-            .catch((err) => {
-                // failure
-                console.log("failure");
-            });
-    }
-
-    async function register() {
-        const url = "http://172.16.134.148:5000/register"; // TODO: UPDATE WHEN WE DEMO, MUST BE DEVICE LOCAL IP
-        const data = {
-            name: name,
+        const {
+            data: { session },
+            error,
+        } = await supabase.auth.signUp({
             email: email,
             password: password,
-        }
+            options: {
+                data: {
+                    name: name,
+                    role: 'parent',
+                    supervised: []
+                }
+            }
+        });
 
-        // register user in db
-        return axios.post(url, data);
+        if (error) Alert.alert(error.message)
+        if (!session) Alert.alert('Please check your inbox for email verification!')
     }
 
     return (

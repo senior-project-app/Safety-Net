@@ -3,8 +3,9 @@ import {Alert, Text, View} from 'react-native';
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
 import styles from "../../Components/Styles";
+import {supabase} from "../../../backend/database";
 
-const ParentSignIn = () => {
+const ParentSignIn = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     async function validateAndAuthenticate() {
@@ -13,7 +14,18 @@ const ParentSignIn = () => {
         if (!password) return Alert.alert("Password cannot be blank.");
 
         // everything is good, try to authenticate the user
-        // TODO: make request to backend to validate user
+        const { error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        })
+
+        if (error) Alert.alert(error.message)
+
+        const {
+            data: { user },
+        } = await supabase.auth.getUser()
+
+        // console.log(user.user_metadata);
     }
 
     return (
