@@ -3,6 +3,7 @@ import {Alert, Text, View} from 'react-native';
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
 import styles from "../../Components/Styles";
+import {supabase} from "../../../backend/database";
 
 const ChildSignIn = () => {
     const [pairingCode, setPairingCode] = useState("");
@@ -10,8 +11,8 @@ const ChildSignIn = () => {
         // check that all values are defined
         if (!pairingCode) return Alert.alert("You must enter a pairing code.");
 
-        // everything is good, try to authenticate the user
-        // TODO: make request to backend to validate user
+        // everything is good, try to pair the user
+        // current idea: use the pair-code as a foreign key to link the two users
     }
 
     return (

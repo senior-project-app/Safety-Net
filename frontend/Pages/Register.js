@@ -3,7 +3,6 @@ import {Text, View, Alert} from 'react-native';
 import Input from "../Components/Input";
 import Button from "../Components/Button";
 import styles from "../Components/Styles";
-import axios from 'axios';
 import {supabase} from "../../backend/database";
 
 function Register({navigation}) {
@@ -30,6 +29,7 @@ function Register({navigation}) {
                 data: {
                     name: name,
                     role: 'parent',
+                    invite_code: Array.from(Array(6), () => Math.floor(Math.random() * 36).toString(36)).join('').toUpperCase(),
                     supervised: []
                 }
             }

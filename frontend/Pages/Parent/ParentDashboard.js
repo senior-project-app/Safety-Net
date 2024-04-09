@@ -1,9 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Text, View } from 'react-native';
 import TimeSelector from "../../Components/TimeSelector";
 import styles from "../../Components/Styles";
+import {supabase} from "../../../backend/database";
 
 const ParentDashboardPage = () => {
+    const [session, setSession] = React.useState(null);
+
+    // listens to the authorization session and updates it
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session);
+        });
+
+        supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session)
+        });
+    }, []);
+
     return (
         <View style={styles.container}>
             <View>

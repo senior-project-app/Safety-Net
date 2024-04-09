@@ -2,21 +2,16 @@ import {useFonts, Inter_900Black, Inter_500Medium} from '@expo-google-fonts/inte
 import {useEffect, useState} from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import UnauthenticatedUser from "./frontend/Navigation/UnauthenticatedUser";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import AuthenticatedParent from "./frontend/Navigation/ParentDashboard";
 import AuthenticatedChild from "./frontend/Navigation/AuthenticatedChild";
 import {supabase} from "./backend/database";
 
-
-const Tab = createBottomTabNavigator();
 export default function App() {
     const [session, setSession] = useState(null);
     const [fontsLoaded, fontError] = useFonts({
         Inter_900Black,
         Inter_500Medium
     });
-
-    if (!fontsLoaded) return null;
 
     // listens to the authorization session and updates it
     useEffect(() => {
@@ -27,7 +22,9 @@ export default function App() {
         supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session)
         });
-    }, [])
+    }, []);
+
+    if (!fontsLoaded) return null; // needs to stay here, otherwise something breaks
 
     function returnView() {
         if(session===null) return <UnauthenticatedUser/>
