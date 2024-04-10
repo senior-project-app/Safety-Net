@@ -6,10 +6,10 @@ import styles from "../Components/Styles";
 import {supabase} from "../../backend/database";
 
 function Register({navigation}) {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirm, setConfirm] = useState("");
+    const [name, setName] = useState("demo");
+    const [email, setEmail] = useState("demo@demo.com");
+    const [password, setPassword] = useState("password");
+    const [confirm, setConfirm] = useState("password");
 
     async function validateAndRegister() {
         // check that all values are defined
@@ -27,16 +27,13 @@ function Register({navigation}) {
             password: password,
             options: {
                 data: {
-                    name: name,
-                    role: 'parent',
-                    invite_code: Array.from(Array(6), () => Math.floor(Math.random() * 36).toString(36)).join('').toUpperCase(),
-                    supervised: []
+                    name: name.toLowerCase(),
+                    role: 'parent'
                 }
             }
         });
 
-        if (error) Alert.alert(error.message)
-        if (!session) Alert.alert('Please check your inbox for email verification!')
+        if (error) Alert.alert(error.message);
     }
 
     return (

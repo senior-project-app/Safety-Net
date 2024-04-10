@@ -1,26 +1,47 @@
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import {Alert, Text, View} from 'react-native';
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
 import styles from "../../Components/Styles";
-import {supabase} from "../../../backend/database";
+import ParentSignIn from "../Parent/ParentSignIn";
+import { LogBox } from 'react-native';
+import {NameContext} from "../../../backend/Context";
 
-const ChildSignIn = () => {
-    const [pairingCode, setPairingCode] = useState("");
+LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+]);
+const ChildSignIn = ({ navigation }) => {
+    const { name, setName, inviteCode, setInviteCode } = useContext(NameContext);
+
     async function validateAndPair() {
         // check that all values are defined
-        if (!pairingCode) return Alert.alert("You must enter a pairing code.");
-
-        // everything is good, try to pair the user
-        // current idea: use the pair-code as a foreign key to link the two users
+        if (!inviteCode) return Alert.alert("You must enter a pairing code.");
+        return navigation.navigate("EnterName");
     }
 
     return (
-        <View style={styles.child}>
-            <Text style={styles.text}>Pair to an account</Text>
-            <Input placeholder={"Enter pairing code"} setValue={(text) => setPairingCode(text)} value={pairingCode}/>
-            <Button text={"Pair"} onPress={validateAndPair} ></Button>
+        <View style={styles.centeredContainer}>
+            <Text style={styles.logo}>SafetyNet</Text>
+
+            <View style={styles.child}>
+                <Text style={styles.text}>Pair to an account</Text>
+                <Input placeholder={"Enter pairing code"} setValue={setInviteCode} value={inviteCode}/>
+                <Button text={"Pair"} onPress={validateAndPair} ></Button>
+            </View>
+
+            <Text>Don't have an account?
+                <Text style={styles.registerButton} onPress={() => navigation.navigate('Register')}> Register</Text>
+            </Text>
+
+            <Text>or</Text>
+
+            <Text>Have a pairing code?
+                <Text style={styles.registerButton} onPress={() => navigation.navigate('Pair')}> Pair</Text>
+            </Text>
+
         </View>
+
+
     );
 }
 

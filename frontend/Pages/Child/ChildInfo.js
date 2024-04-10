@@ -1,26 +1,45 @@
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import {Alert, Text, View} from 'react-native';
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
 import styles from "../../Components/Styles";
+import {NameContext} from "../../../backend/Context";
+import {supabase} from "../../../backend/database";
 
 const ChildInfo = ({ navigation }) => {
-    const [name, setName] = useState("");
+    const { name, setName, inviteCode, setInviteCode } = useContext(NameContext);
 
-    function validateName() {
-        if (name) return Alert.alert("Code cannot be blank.");
+    async function validateName() {
+        if(!name) return Alert.alert("You must enter your name");
 
-        // name was defined, continue
-        navigation.navigate('ChildDashboard');
+        const fName = name.toLowerCase().replace(/ /g,"_");
+
+        console.log(`${inviteCode + fName}@safetynet.com`);
+        console.log(inviteCode);
+
+        const { error } = await supabase.auth.signInWithPassword({
+            email: `${inviteCode + fName}@safetynet.com`,
+            password: inviteCode,
+        });
+
+        if (error) {
+            Alert.alert(error.message);
+            navigation.goBack();
+        }
     }
 
     return (
         <View style={styles.centeredContainer}>
-            <Text style={styles.centeredHeadline}>What is your name?</Text>
-            <Input placeholder={"Jane Doe"} setValue={setName} value={name}/>
+            <Text style={styles.logo}>SafetyNet</Text>
 
-            <Button text={"Confirm"} onPress={validateName}></Button>
+            <View style={styles.child}>
+                <Text style={styles.text}>What is your name?</Text>
+                <Input placeholder={"Jane Doe"} setValue={setName} value={name}/>
+
+                <Button text={"Confirm"} onPress={validateName}></Button>
+            </View>
         </View>
+
     );
 
 }

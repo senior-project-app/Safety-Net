@@ -3,8 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createClient } from '@supabase/supabase-js'
 import {AppState} from "react-native";
 
-const supabaseUrl = "https://aauuhbavzvsmupbasznk.supabase.co";
-const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFhdXVoYmF2enZzbXVwYmFzem5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTI2MjAxNDEsImV4cCI6MjAyODE5NjE0MX0.Wivm4XkbyUH6j_59_3caNbK-KfOzeO-yz4jDMVaCFA4";
+const supabaseUrl = "https://fmnmlvzhfldmmquksulq.supabase.co";
+const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtbm1sdnpoZmxkbW1xdWtzdWxxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTI2ODU3NDYsImV4cCI6MjAyODI2MTc0Nn0.UXD5ZulLG9l7BA-2RRfwfTrF_1LiZW0hUrWARKUx1mI";
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
@@ -15,10 +15,18 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     },
 });
 
+supabase.channel('new-child-users');
+
+export const supabaseAccountCreator = createClient(supabaseUrl, supabaseAnonKey);
+
+
+
+
+
 AppState.addEventListener('change', (state) => {
     if (state === 'active') {
         supabase.auth.startAutoRefresh();
     } else {
         supabase.auth.stopAutoRefresh();
     }
-})
+});

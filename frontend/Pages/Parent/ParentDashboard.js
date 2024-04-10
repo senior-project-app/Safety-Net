@@ -1,22 +1,29 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { Text, View } from 'react-native';
-import TimeSelector from "../../Components/TimeSelector";
 import styles from "../../Components/Styles";
 import {supabase} from "../../../backend/database";
+import {SessionContext} from "../../../backend/Context";
 
-const ParentDashboardPage = () => {
-    const [session, setSession] = React.useState(null);
+const ParentDashboardPage = ({ navigation }) => {
+    const { session, metadata } = useContext(SessionContext);
+    const [ children, setChildren ] = useState(null);
 
-    // listens to the authorization session and updates it
+    // get all children assigned to a user
+    async function getChildren() {
+        const {data, error} = await supabase.rpc('get_child_users', {invite_code_text: metadata[0].invite_code});
+        if(error) console.log(error);
+        else setChildren(data);
+    }
+
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setSession(session);
-        });
+        const interval = setInterval(() => {
+            getChildren();
+        }, 10000);
 
-        supabase.auth.onAuthStateChange((_event, session) => {
-            setSession(session)
-        });
+        return () => clearInterval(interval);
     }, []);
+
+
 
     return (
         <View style={styles.container}>
@@ -24,17 +31,8 @@ const ParentDashboardPage = () => {
                 <Text style={styles.logo}>SafetyNet</Text>
             </View>
 
-            <View style={styles.child}>
-                <Text style={styles.text}>DemoChildUser</Text>
-                <TimeSelector text={"Set Check-In Interval Start"}/>
-                <TimeSelector text={"Set Check-In Interval End"}/>
-            </View>
 
-            <View style={styles.child}>
-                <Text style={styles.text}>Set Suspend Interval</Text>
-                <TimeSelector text={"Begin"}/>
-                <TimeSelector text={"End"}/>
-            </View>
+
         </View>
     );
 }

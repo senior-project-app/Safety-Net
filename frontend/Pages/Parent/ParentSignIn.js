@@ -8,6 +8,7 @@ import {supabase} from "../../../backend/database";
 const ParentSignIn = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
     async function validateAndAuthenticate() {
         // check that all values are defined
         if (!email) return Alert.alert("Email cannot be blank.");
@@ -20,12 +21,6 @@ const ParentSignIn = ({ navigation }) => {
         })
 
         if (error) Alert.alert(error.message)
-
-        const {
-            data: { user },
-        } = await supabase.auth.getUser()
-
-        // console.log(user.user_metadata);
     }
 
     return (
