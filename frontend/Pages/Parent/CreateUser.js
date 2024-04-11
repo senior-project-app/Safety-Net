@@ -17,15 +17,13 @@ function CreateUser({ navigation }) {
         // preformat name to remove spaces and replace with _
         const fName = name.toLowerCase().replace(/ /g,"_");
 
-        console.log(metadata);
-
         const { error } = await supabaseAccountCreator.auth.signUp(
             {
                 email: `${metadata.invite_code + fName}@safetynet.com`,
                 password: metadata.invite_code,
                 options: {
                     data: {
-                        name: fName,
+                        name: name,
                         invite_code: metadata.invite_code,
                         role: "child",
                         parent_id: metadata.id

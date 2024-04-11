@@ -5,7 +5,7 @@ import UnauthenticatedUser from "./frontend/Navigation/UnauthenticatedUser";
 import AuthenticatedParent from "./frontend/Navigation/AuthenticatedParent";
 import AuthenticatedChild from "./frontend/Navigation/AuthenticatedChild";
 import {SessionContext} from "./backend/Context";
-import {fetchUserInfo, supabase} from "./backend/database";
+import {fetchUserInfo, storeUserMetadata, supabase} from "./backend/database";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {

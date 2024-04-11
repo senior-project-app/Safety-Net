@@ -1,32 +1,53 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {RefreshControl, SafeAreaView, ScrollView, Text, View} from 'react-native';
+import {Pressable, RefreshControl, SafeAreaView, ScrollView, Text, View} from 'react-native';
 import styles from "../../Components/Styles";
 import {SessionContext} from "../../../backend/Context";
 import Button from "../../Components/Button";
-import {fetchUserInfo, getUserMetadata} from "../../../backend/database";
+import {fetchUserInfo, getUserMetadata, supabase} from "../../../backend/database";
+import {Card, ListItem} from "react-native-elements";
+import ChildCard from "./ChildCard";
+
+const parse = require('postgres-date');
 
 const ParentDashboardPage = ({ navigation }) => {
-    const { session, metadata } = useContext(SessionContext);
-    const [ children, setChildren ] = useState(null);
-    const [refreshing, setRefreshing] = useState(false);
+    const [ metadata, setMetadata ] = useState(null);
+    const [ children, setChildren ] = useState([]);
 
-    // get all children assigned to a user
-    const onRefresh = React.useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-            fetchUserInfo();
-        }, 2000);
+    const getChildren = async () => {
+        const {data, error} = await supabase.rpc('get_child_users', {invite_code_text: metadata.invite_code });
+        if(error) return console.log(error);
+        setChildren(data);
+
+        console.log(data);
+        console.log(metadata);
+    }
+
+    useEffect(() => {
+        getUserMetadata().then()
+            .then((res) => {
+                setMetadata(res);
+                getChildren();
+
+            });
+
     }, []);
 
+    for(let i = 0; i < children.length; i++) {
+        const child = children[i];
+        const date = new Date(child.last_check_in);
+    }
+
     return (
-        <SafeAreaView style={styles.container}>
-            <ScrollView
-                contentContainerStyle={styles.scrollView}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-                <Button onPress={() => getUserMetadata()} text={"Print children"}/>
-            </ScrollView>
-        </SafeAreaView>
+        <View>
+            <Button text={"Get Children"} onPress={() => getChildren("")}/>
+            <View>
+                    {
+                        children.map((user, index) => (
+                            <ChildCard user={user} key={index} />
+                        ))
+                    }
+            </View>
+        </View>
     );
 }
 

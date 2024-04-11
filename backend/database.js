@@ -17,7 +17,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 
 export const storeUserMetadata = async (value) => {
     try {
-        console.log(value);
         const jsonValue = JSON.stringify(value);
         await AsyncStorage.setItem('userData', jsonValue);
     } catch (e) {
@@ -30,6 +29,14 @@ export const getUserMetadata = async () => {
 };
 
 export const fetchUserInfo = async () => {
+    const { error } = await supabase.from('parent_users')
+        .select()
+        .then((res) => {
+            storeUserMetadata(res.data[0]);
+        })
+}
+
+export const getUserChildren = async () => {
     const { error } = await supabase.from('parent_users')
         .select()
         .then((res) => {
