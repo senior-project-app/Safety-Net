@@ -24,14 +24,17 @@ const ParentDashboardPage = ({ navigation }) => {
             .then((res) => {
                 setMetadata(res);
                 getChildren();
-
             });
+
+        setInterval(() => {
+            getChildren();
+        }, 5000);
 
     }, []);
 
     for(let i = 0; i < children.length; i++) {
         const child = children[i];
-        const date = new Date(child.last_check_in);
+        console.log(child);
     }
 
     return (

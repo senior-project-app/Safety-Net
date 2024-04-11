@@ -3,20 +3,34 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 import Button from "../../Components/Button";
 import {ListItem, Overlay} from "react-native-elements";
 import TimeSelector from "../../Components/TimeSelector";
+import {LinearGradient} from "expo-linear-gradient";
+import {TimerPickerModal} from "react-native-timer-picker";
+import {storeUserMetadata, supabase} from "../../../backend/database";
 
 const ChildCard = ({ user, index }) => {
     const [visible, setVisible] = useState(false);
+    const [ timerSelect, setTimerSelect ] = useState(false);
+    const [ time, setTime ] = useState("");
 
     const toggleOverlay = () => {
         setVisible(!visible);
     };
 
+    async function updateChildInterval(duration) {
+        console.log(duration);
+
+        await supabase
+            .from('child_users')
+            .update({ check_in_interval: `${duration.hours}:${duration.minutes}:00` })
+            .eq('id', user.id);
+    }
+
+
     /* TODO:
-    *  - update check in interval with selected time
+    *  - update check in interval with selected time - done
     *  - notifications when user does not checkin within timeframe
     *  - when child checks in update last check in value
     */
-
 
     return (
         <View>
@@ -29,15 +43,40 @@ const ChildCard = ({ user, index }) => {
                     <ListItem.Chevron />
                 </ListItem>
             </Pressable>
-            <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-                <View style={styles.container}>
-                    <View style={{ padding: 20 }}>
-                        <Text style={styles.text}>{user.name}</Text>
-                        <TimeSelector text={"Set maximum time between check-ins"}/>
-                    </View>
-                    <Button text={"Confirm Changes"}/>
+            <View style={styles.container}>
+                <View style={{ padding: 20 }}>
+                    <TimerPickerModal
+                        padWithNItems={2}
+                        hourLabel="hr :"
+                        minuteLabel=" min"
+                        hideSeconds
+                        LinearGradient={LinearGradient}
+                        onConfirm={(duration) => {
+                            setTime(duration);
+                            setVisible(false);
+                            updateChildInterval(duration);
+                        }}
+                        setIsVisible={setVisible}
+                        visible={visible}
+                        styles={{
+                            theme: "light",
+                            pickerItem: {
+                                fontSize: 34,
+                            },
+                            pickerLabel: {
+                                fontSize: 26,
+                                right: -20,
+                            },
+                            pickerLabelContainer: {
+                                width: 60,
+                            },
+                            pickerItemContainer: {
+                                width: 150,
+                            },
+                        }}
+                    />
                 </View>
-            </Overlay>
+            </View>
         </View>
     );
 };
