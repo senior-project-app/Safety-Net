@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Text, View, Alert} from 'react-native';
-import { supabaseAccountCreator } from "../../../backend/database";
+import {getUserMetadata, supabaseAccountCreator} from "../../../backend/database";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import styles from "../../Components/Styles";
@@ -8,7 +8,7 @@ import {SessionContext} from "../../../backend/Context";
 
 function CreateUser({ navigation }) {
     const [name, setName] = useState("");
-    const { session, metadata } = useContext(SessionContext);
+    const [ metadata, setMetadata ] = useState(null);
 
     async function createUser() {
         // check that all values are defined
@@ -17,25 +17,35 @@ function CreateUser({ navigation }) {
         // preformat name to remove spaces and replace with _
         const fName = name.toLowerCase().replace(/ /g,"_");
 
+        console.log(metadata);
+
         const { error } = await supabaseAccountCreator.auth.signUp(
             {
-                email: `${metadata[0].invite_code + fName}@safetynet.com`,
-                password: metadata[0].invite_code,
+                email: `${metadata.invite_code + fName}@safetynet.com`,
+                password: metadata.invite_code,
                 options: {
                     data: {
                         name: fName,
-                        invite_code: metadata[0].invite_code,
+                        invite_code: metadata.invite_code,
                         role: "child",
-                        parent_id: metadata[0].id
+                        parent_id: metadata.id
                     }
                 }
             }
         );
 
         if(error) return Alert.alert(error.message);
-
-        // account was paired successfully
+        setName("");
+        Alert.alert("User creation successful");
     }
+
+
+    useEffect(() => {
+        getUserMetadata().then()
+            .then((res) => {
+                setMetadata(res);
+            })
+    }, []);
 
     return (
         <View style={styles.centeredContainer}>

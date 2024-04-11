@@ -15,13 +15,28 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     },
 });
 
-supabase.channel('new-child-users');
+export const storeUserMetadata = async (value) => {
+    try {
+        console.log(value);
+        const jsonValue = JSON.stringify(value);
+        await AsyncStorage.setItem('userData', jsonValue);
+    } catch (e) {
+    }
+};
 
+export const getUserMetadata = async () => {
+    const jsonValue = await AsyncStorage.getItem('userData');
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+};
+
+export const fetchUserInfo = async () => {
+    const { error } = await supabase.from('parent_users')
+        .select()
+        .then((res) => {
+            storeUserMetadata(res.data[0]);
+        })
+}
 export const supabaseAccountCreator = createClient(supabaseUrl, supabaseAnonKey);
-
-
-
-
 
 AppState.addEventListener('change', (state) => {
     if (state === 'active') {

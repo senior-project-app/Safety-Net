@@ -5,15 +5,11 @@ import UnauthenticatedUser from "./frontend/Navigation/UnauthenticatedUser";
 import AuthenticatedParent from "./frontend/Navigation/AuthenticatedParent";
 import AuthenticatedChild from "./frontend/Navigation/AuthenticatedChild";
 import {SessionContext} from "./backend/Context";
-import {supabase} from "./backend/database";
-import {createStackNavigator} from "@react-navigation/stack";
-
-
-const Stack = createStackNavigator();
+import {fetchUserInfo, supabase} from "./backend/database";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
     const [session, setSession] = useState(null);
-    const [metadata, setMetadata] = useState(null)
 
     const [fontsLoaded, fontError] = useFonts({
         Inter_900Black,
@@ -21,24 +17,15 @@ export default function App() {
     });
 
     useEffect(() => {
-        async function loadMetadata() {
-            const {data, error} = await supabase.from("parent_users").select();
-            setMetadata(data);
-        }
-
         supabase.auth.getSession().then(({ data: { session } }) => {
             setSession(session);
-            loadMetadata();
         });
 
-        const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+        supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session);
-            loadMetadata();
-        })
-
-        return () => authListener.subscription;
+            fetchUserInfo();
+        });
     }, []);
-
 
     if (!fontsLoaded) return null; // needs to stay here, otherwise something breaks
     function returnView() {
@@ -51,7 +38,7 @@ export default function App() {
 
     return (
         <NavigationContainer>
-            <SessionContext.Provider value={{session: session, metadata: metadata, setSession: setSession }}>
+            <SessionContext.Provider value={{session: session, setSession: setSession }}>
                 {returnView()}
             </SessionContext.Provider>
         </NavigationContainer>
