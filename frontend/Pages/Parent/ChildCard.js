@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
-import Button from "../../Components/Button";
-import {ListItem, Overlay} from "react-native-elements";
-import TimeSelector from "../../Components/TimeSelector";
+import {ListItem} from "react-native-elements";
 import {LinearGradient} from "expo-linear-gradient";
 import {TimerPickerModal} from "react-native-timer-picker";
-import {storeUserMetadata, supabase} from "../../../backend/database";
+import {supabase} from "../../../backend/database";
 
 const ChildCard = ({ user, index }) => {
     const [visible, setVisible] = useState(false);
@@ -17,8 +15,6 @@ const ChildCard = ({ user, index }) => {
     };
 
     async function updateChildInterval(duration) {
-        console.log(duration);
-
         await supabase
             .from('child_users')
             .update({ check_in_interval: `${duration.hours}:${duration.minutes}:00` })
@@ -29,11 +25,11 @@ const ChildCard = ({ user, index }) => {
     /* TODO:
     *  - update check in interval with selected time - done
     *  - notifications when user does not checkin within timeframe
-    *  - when child checks in update last check in value
+    *  - when child checks in update last check in value - done
     */
 
     return (
-        <View>
+        <View style={{ width: "75%" }}>
             <Pressable onPress={toggleOverlay}>
                 <ListItem bottomDivider>
                     <ListItem.Content>

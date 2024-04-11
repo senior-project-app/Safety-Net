@@ -6,7 +6,9 @@ import AuthenticatedParent from "./frontend/Navigation/AuthenticatedParent";
 import AuthenticatedChild from "./frontend/Navigation/AuthenticatedChild";
 import {SessionContext} from "./backend/Context";
 import {fetchUserInfo, storeUserMetadata, supabase} from "./backend/database";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export default function App() {
     const [session, setSession] = useState(null);
@@ -15,6 +17,7 @@ export default function App() {
         Inter_900Black,
         Inter_500Medium
     });
+
 
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {

@@ -23,6 +23,19 @@ export const storeUserMetadata = async (value) => {
     }
 };
 
+export const getChildMetadata = async () => {
+    const jsonValue = await AsyncStorage.getItem('childData');
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+};
+
+export const storeChildMetadata = async (value) => {
+    try {
+        const jsonValue = JSON.stringify(value);
+        await AsyncStorage.setItem('childData', jsonValue);
+    } catch (e) {
+    }
+};
+
 export const getUserMetadata = async () => {
     const jsonValue = await AsyncStorage.getItem('userData');
     return jsonValue != null ? JSON.parse(jsonValue) : null;
@@ -33,6 +46,16 @@ export const fetchUserInfo = async () => {
         .select()
         .then((res) => {
             storeUserMetadata(res.data[0]);
+        })
+}
+
+export const fetchChildInfo = async (id) => {
+    await supabase
+        .from('child_users')
+        .select()
+        .eq('id', id)
+        .then((res) => {
+            storeChildMetadata(res.data[0]);
         })
 }
 

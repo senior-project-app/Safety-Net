@@ -32,21 +32,15 @@ const ParentDashboardPage = ({ navigation }) => {
 
     }, []);
 
-    for(let i = 0; i < children.length; i++) {
-        const child = children[i];
-        console.log(child);
-    }
-
     return (
-        <View>
-            <Button text={"Get Children"} onPress={() => getChildren("")}/>
-            <View>
-                    {
-                        children.map((user, index) => (
-                            <ChildCard user={user} key={index} />
-                        ))
-                    }
-            </View>
+        <View style={styles.centeredContainer}>
+            <Text style={styles.logo}>SafetyNet</Text>
+                {
+                    children.map((user, index) => (
+                        <ChildCard user={user} key={index} />
+                    ))
+                }
+            <Button text={"Refresh"} onPress={() => getChildren("")}/>
         </View>
     );
 }
