@@ -11,6 +11,13 @@ const ChildCard = ({ user, index }) => {
         setVisible(!visible);
     };
 
+    /* TODO:
+    *  - update check in interval with selected time
+    *  - notifications when user does not checkin within timeframe
+    *  - when child checks in update last check in value
+    */
+
+
     return (
         <View>
             <Pressable onPress={toggleOverlay}>
@@ -26,16 +33,8 @@ const ChildCard = ({ user, index }) => {
                 <View style={styles.container}>
                     <View style={{ padding: 20 }}>
                         <Text style={styles.text}>{user.name}</Text>
-                        <TimeSelector text={"Set Check-In Interval Start"}/>
-                        <TimeSelector text={"Set Check-In Interval End"}/>
+                        <TimeSelector text={"Set maximum time between check-ins"}/>
                     </View>
-
-                    <View style={{ padding: 20 }}>
-                        <Text style={styles.text}>Set Suspend Interval</Text>
-                        <TimeSelector text={"Begin"}/>
-                        <TimeSelector text={"End"}/>
-                    </View>
-
                     <Button text={"Confirm Changes"}/>
                 </View>
             </Overlay>

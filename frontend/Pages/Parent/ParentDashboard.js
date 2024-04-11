@@ -17,9 +17,6 @@ const ParentDashboardPage = ({ navigation }) => {
         const {data, error} = await supabase.rpc('get_child_users', {invite_code_text: metadata.invite_code });
         if(error) return console.log(error);
         setChildren(data);
-
-        console.log(data);
-        console.log(metadata);
     }
 
     useEffect(() => {
