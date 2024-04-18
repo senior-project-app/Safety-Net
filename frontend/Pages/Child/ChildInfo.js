@@ -14,16 +14,13 @@ const ChildInfo = ({ navigation }) => {
 
         const fName = name.toLowerCase().replace(/ /g,"_");
 
-        console.log(`${inviteCode + fName}@safetynet.com`);
-        console.log(inviteCode);
-
         const { error } = await supabase.auth.signInWithPassword({
             email: `${inviteCode + fName}@safetynet.com`,
             password: inviteCode,
         });
 
         if (error) {
-            Alert.alert(error.message);
+            Alert.alert("No user was found for that invite code. Please try again.");
             navigation.goBack();
         }
     }

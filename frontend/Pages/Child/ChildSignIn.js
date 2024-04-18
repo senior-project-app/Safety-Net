@@ -1,9 +1,8 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {Alert, Text, View} from 'react-native';
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
 import styles from "../../Components/Styles";
-import ParentSignIn from "../Parent/ParentSignIn";
 import { LogBox } from 'react-native';
 import {NameContext} from "../../../backend/Context";
 

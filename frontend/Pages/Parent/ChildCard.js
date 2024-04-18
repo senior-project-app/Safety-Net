@@ -21,12 +21,12 @@ const ChildCard = ({ user, index }) => {
             .eq('id', user.id);
     }
 
+    function getTimeElapsed(user) {
+        // console.log(user.name);
+        // console.log(new Date(user.last_check_in));
+    }
 
-    /* TODO:
-    *  - update check in interval with selected time - done
-    *  - notifications when user does not checkin within timeframe
-    *  - when child checks in update last check in value - done
-    */
+
 
     return (
         <View style={{ width: "75%" }}>
@@ -34,7 +34,7 @@ const ChildCard = ({ user, index }) => {
                 <ListItem bottomDivider>
                     <ListItem.Content>
                         <ListItem.Title>{user.name}</ListItem.Title>
-                        <ListItem.Subtitle>Last check-in: {new Date(user.last_check_in).toLocaleString()}</ListItem.Subtitle>
+                        <ListItem.Subtitle>Last check-in: { getTimeElapsed(user) }</ListItem.Subtitle>
                     </ListItem.Content>
                     <ListItem.Chevron />
                 </ListItem>
