@@ -26,8 +26,6 @@ const ChildCard = ({ user, index }) => {
         // console.log(new Date(user.last_check_in));
     }
 
-
-
     return (
         <View style={{ width: "75%" }}>
             <Pressable onPress={toggleOverlay}>

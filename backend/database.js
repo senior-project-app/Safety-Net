@@ -1,6 +1,6 @@
 import 'react-native-url-polyfill/auto';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { createClient } from '@supabase/supabase-js'
+import {createClient, REALTIME_LISTEN_TYPES} from '@supabase/supabase-js'
 import {AppState} from "react-native";
 
 const supabaseUrl = "https://fmnmlvzhfldmmquksulq.supabase.co";
@@ -14,6 +14,26 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
         detectSessionInUrl: false,
     },
 });
+
+supabase.channel('parent_inserts')
+    .on(REALTIME_LISTEN_TYPES.POSTGRES_CHANGES,     {
+        schema: 'public', // Subscribes to the "public" schema in Postgres
+        table: '*',
+        event: '*',       // Listen to all changes
+    },
+ (data) => {
+        console.log(data);
+    }).subscribe();
+
+// supabase.channel('checkin_violations')
+//     .on(REALTIME_LISTEN_TYPES.POSTGRES_CHANGES,     {
+//             schema: 'public', // Subscribes to the "public" schema in Postgres
+//             table: 'child_users',
+//             event: 'insert',       // Listen to all changes
+//         },
+//         (data) => {
+//             console.log(data);
+//         }).subscribe();
 
 export const storeUserMetadata = async (value) => {
     try {

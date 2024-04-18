@@ -1,10 +1,8 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {Pressable, RefreshControl, SafeAreaView, ScrollView, Text, View} from 'react-native';
 import styles from "../../Components/Styles";
-import {SessionContext} from "../../../backend/Context";
 import Button from "../../Components/Button";
-import {fetchUserInfo, getUserMetadata, supabase} from "../../../backend/database";
-import {Card, ListItem} from "react-native-elements";
+import { getUserMetadata, supabase } from "../../../backend/database";
 import ChildCard from "./ChildCard";
 
 const parse = require('postgres-date');
@@ -25,11 +23,6 @@ const ParentDashboardPage = ({ navigation }) => {
                 setMetadata(res);
                 getChildren();
             });
-
-        setInterval(() => {
-            getChildren();
-        }, 5000);
-
     }, []);
 
     return (
