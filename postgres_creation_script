@@ -1,0 +1,113 @@
+drop table if exists parent_users cascade;
+drop table if exists public.parent_users cascade;
+drop table if exists child_users cascade;
+drop table if exists public.child_users cascade;
+
+TRUNCATE auth.users cascade;
+drop trigger if exists on_auth_parent_user_created on auth.users cascade;
+drop trigger if exists on_auth_child_user_created on auth.users cascade;
+
+drop function if exists public.handle_new_user() cascade;
+drop function if exists handle_new_user() cascade;
+
+drop function if exists public.handle_new_parent() cascade;
+drop function if exists handle_new_parent() cascade;
+
+drop function if exists public.handle_new_child() cascade;
+drop function if exists handle_new_child() cascade;
+
+drop function if exists public.gen_code() cascade;
+drop function if exists gen_code() cascade;
+
+
+-- create gen_invite function
+CREATE OR REPLACE FUNCTION public.gen_code() RETURNS TEXT AS $$
+DECLARE
+  characters TEXT := 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  bytes BYTEA := extensions.gen_random_bytes(6);
+  l INT := length(characters);
+  i INT := 0;
+  output TEXT := '';
+BEGIN
+  WHILE i < 6 LOOP
+    output := output || substr(characters, get_byte(bytes, i) % l + 1, 1);
+    i := i + 1;
+  END LOOP;
+  RETURN output;
+END;
+$$ LANGUAGE plpgsql security definer;
+
+
+-- Create a table for parent users
+create table parent_users (
+  id uuid unique references auth.users on delete cascade not null primary key,
+  invite_code text unique,
+  email text unique,
+  name text,
+  role text,
+  children uuid[]
+);
+
+-- Create a table for child users
+create table child_users (
+  id uuid unique references auth.users on delete cascade not null primary key,
+  invite_code text references parent_users(invite_code) on delete cascade not null,
+  name text,
+  role text,
+  last_check_in timestamp default current_timestamp,
+  check_in_interval time default NOW()
+);
+
+-- Turn on security
+alter table parent_users
+enable row level security;
+
+-- parents can select their own data
+create policy "parents_select"
+on "public"."parent_users"
+as permissive for all to
+public using ((auth.uid() = id));
+
+-- functions
+create function public.handle_new_parent() returns trigger as $$
+begin
+  insert into public.parent_users (id, email, name, role, invite_code, children)
+  values (new.id, new.email, new.raw_user_meta_data->>'name', new.raw_user_meta_data->>'role', public.gen_code(), array[]::uuid[]);
+  return new;
+end;
+$$ language plpgsql security definer;
+
+create function public.handle_new_child() returns trigger as $$
+begin
+  insert into public.child_users (id, invite_code, name, role)
+  values (
+    new.id, new.raw_user_meta_data->>'invite_code', new.raw_user_meta_data->>'name', new.raw_user_meta_data->>'role');
+  -- append to parent_users the uuid of the child
+  UPDATE public.parent_users p SET children = children || new.id WHERE p.invite_code = new.raw_user_meta_data->>'invite_code';
+  --
+  return new;
+end;
+$$ language plpgsql security definer;
+
+-- triggers
+create trigger on_auth_parent_user_created
+after insert on auth.users for each row
+when (new.raw_user_meta_data->>'role' = 'parent')
+execute procedure public.handle_new_parent();
+
+create trigger on_auth_child_user_created
+after insert on auth.users for each row
+when (new.raw_user_meta_data->>'role' = 'child')
+execute procedure public.handle_new_child();
+
+
+-- get child users function for RPC
+DROP FUNCTION get_child_users(text);
+
+create or replace function get_child_users(invite_code_text text)
+returns table (id uuid, invite_code text, name text, role text, last_check_in timestamp, check_in_interval time)
+as $$
+BEGIN
+    return query select * from public.child_users c where c.invite_code = invite_code_text;
+END;
+$$ language plpgsql;
