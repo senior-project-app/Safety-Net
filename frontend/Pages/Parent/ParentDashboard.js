@@ -4,25 +4,26 @@ import styles from "../../Components/Styles";
 import Button from "../../Components/Button";
 import { getUserMetadata, supabase } from "../../../backend/database";
 import ChildCard from "./ChildCard";
+import {SessionContext} from "../../../backend/Context";
 
 const parse = require('postgres-date');
 
 const ParentDashboardPage = ({ navigation }) => {
-    const [ metadata, setMetadata ] = useState(null);
+    const { session, setSession } = useContext(SessionContext);
     const [ children, setChildren ] = useState([]);
 
     const getChildren = async () => {
-        const {data, error} = await supabase.rpc('get_child_users', {invite_code_text: metadata.invite_code });
+        const {data, error} = await supabase.rpc('get_supervised', {l_invite_code: session.user.user_metadata.invite_code });
         if(error) return console.log(error);
         setChildren(data);
     }
 
     useEffect(() => {
-        getUserMetadata().then()
-            .then((res) => {
-                setMetadata(res);
-                getChildren();
-            });
+        getChildren()
+
+        setInterval(() => {
+            getChildren();
+        }, 1000);
     }, []);
 
     return (
@@ -33,7 +34,7 @@ const ParentDashboardPage = ({ navigation }) => {
                         <ChildCard user={user} key={index} />
                     ))
                 }
-            <Button text={"Refresh"} onPress={() => getChildren("")}/>
+            <Button text={"Refresh"} onPress={() => getChildren()}/>
         </View>
     );
 }

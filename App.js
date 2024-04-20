@@ -26,7 +26,6 @@ export default function App() {
 
         supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session);
-            fetchUserInfo();
         });
     }, []);
 
@@ -34,8 +33,8 @@ export default function App() {
     function returnView() {
         if (session === null) return <UnauthenticatedUser/>
 
-        if (session.user.user_metadata.role === "parent") return <AuthenticatedParent/>
-        else if (session.user.user_metadata.role === "child") return <AuthenticatedChild/>
+        if (session.user.user_metadata.role === "supervisor") return <AuthenticatedParent/>
+        else if (session.user.user_metadata.role === "supervised") return <AuthenticatedChild/>
         else return <UnauthenticatedUser/>
     }
 

@@ -3,11 +3,12 @@ import {Alert, Text, View} from 'react-native';
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
 import styles from "../../Components/Styles";
-import {NameContext} from "../../../backend/Context";
+import {NameContext, SessionContext} from "../../../backend/Context";
 import {supabase} from "../../../backend/database";
 
 const ChildInfo = ({ navigation }) => {
     const { name, setName, inviteCode, setInviteCode } = useContext(NameContext);
+    const { session, setSession } = useContext(SessionContext);
 
     async function validateName() {
         if(!name) return Alert.alert("You must enter your name");

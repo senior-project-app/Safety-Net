@@ -9,6 +9,7 @@ import {SessionContext} from "../../../backend/Context";
 function CreateUser({ navigation }) {
     const [name, setName] = useState("");
     const [ metadata, setMetadata ] = useState(null);
+    const { session, setSession } = useContext(SessionContext);
 
     async function createUser() {
         // check that all values are defined
@@ -19,19 +20,17 @@ function CreateUser({ navigation }) {
 
         const { error } = await supabaseAccountCreator.auth.signUp(
             {
-                email: `${metadata.invite_code + fName}@safetynet.com`,
-                password: metadata.invite_code,
+                email: `${session.user.user_metadata.invite_code + fName}@safetynet.com`,
+                password: session.user.user_metadata.invite_code,
                 options: {
                     data: {
                         name: name,
-                        invite_code: metadata.invite_code,
-                        role: "child",
-                        parent_id: metadata.id
+                        role: "supervised",
+                        parent_id: session.user.id,
                     }
                 }
             }
         );
-
         if(error) return Alert.alert(error.message);
         setName("");
         Alert.alert("User creation successful");

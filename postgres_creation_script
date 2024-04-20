@@ -1,28 +1,6 @@
-drop table if exists parent_users cascade;
-drop table if exists public.parent_users cascade;
-drop table if exists child_users cascade;
-drop table if exists public.child_users cascade;
-
-TRUNCATE auth.users cascade;
-drop trigger if exists on_auth_parent_user_created on auth.users cascade;
-drop trigger if exists on_auth_child_user_created on auth.users cascade;
-
-drop function if exists public.handle_new_user() cascade;
-drop function if exists handle_new_user() cascade;
-
-drop function if exists public.handle_new_parent() cascade;
-drop function if exists handle_new_parent() cascade;
-
-drop function if exists public.handle_new_child() cascade;
-drop function if exists handle_new_child() cascade;
-
-drop function if exists public.gen_code() cascade;
-drop function if exists gen_code() cascade;
-
-
 -- create gen_invite function
-CREATE OR REPLACE FUNCTION public.gen_code() RETURNS TEXT AS $$
-DECLARE
+create OR replace function public.gen_code() returns text AS $$
+declare
   characters TEXT := 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   bytes BYTEA := extensions.gen_random_bytes(6);
   l INT := length(characters);
@@ -37,77 +15,60 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql security definer;
 
+create OR replace function public.handle_new_user() returns trigger
+as $$
+declare
+  l_invite_code text;
+BEGIN
+  if new.raw_user_meta_data->>'role'='supervisor'
+  then
+    l_invite_code := (select public.gen_code());
+  else
+    l_invite_code := (select invite_code from auth.users where id = (new.raw_user_meta_data->>'parent_id')::uuid);
+  end if;
 
--- Create a table for parent users
-create table parent_users (
-  id uuid unique references auth.users on delete cascade not null primary key,
-  invite_code text unique,
-  email text unique,
-  name text,
-  role text,
-  children uuid[]
-);
-
--- Create a table for child users
-create table child_users (
-  id uuid unique references auth.users on delete cascade not null primary key,
-  invite_code text references parent_users(invite_code) on delete cascade not null,
-  name text,
-  role text,
-  last_check_in timestamp default current_timestamp,
-  check_in_interval time default NOW()
-);
-
--- Turn on security
-alter table parent_users
-enable row level security;
-
--- parents can select their own data
-create policy "parents_select"
-on "public"."parent_users"
-as permissive for all to
-public using ((auth.uid() = id));
-
--- functions
-create function public.handle_new_parent() returns trigger as $$
-begin
-  insert into public.parent_users (id, email, name, role, invite_code, children)
-  values (new.id, new.email, new.raw_user_meta_data->>'name', new.raw_user_meta_data->>'role', public.gen_code(), array[]::uuid[]);
+  UPDATE auth.users
+    SET
+      user_type   = new.raw_user_meta_data->>'role',
+      name        = new.raw_user_meta_data->>'name',
+      invite_code = l_invite_code,
+      raw_user_meta_data = new.raw_user_meta_data || ('{"invite_code":' || '"' || l_invite_code || '"' || '}' )::jsonb || ('{"interval":' || '"' || new.interval || '"' || '}' )::jsonb,
+      last_checkin = NOW()
+  WHERE id = new.id;
   return new;
-end;
+END;
 $$ language plpgsql security definer;
 
-create function public.handle_new_child() returns trigger as $$
-begin
-  insert into public.child_users (id, invite_code, name, role)
-  values (
-    new.id, new.raw_user_meta_data->>'invite_code', new.raw_user_meta_data->>'name', new.raw_user_meta_data->>'role');
-  -- append to parent_users the uuid of the child
-  UPDATE public.parent_users p SET children = children || new.id WHERE p.invite_code = new.raw_user_meta_data->>'invite_code';
-  --
-  return new;
-end;
-$$ language plpgsql security definer;
-
--- triggers
-create trigger on_auth_parent_user_created
-after insert on auth.users for each row
-when (new.raw_user_meta_data->>'role' = 'parent')
-execute procedure public.handle_new_parent();
-
-create trigger on_auth_child_user_created
-after insert on auth.users for each row
-when (new.raw_user_meta_data->>'role' = 'child')
-execute procedure public.handle_new_child();
-
-
--- get child users function for RPC
-DROP FUNCTION get_child_users(text);
-
-create or replace function get_child_users(invite_code_text text)
-returns table (id uuid, invite_code text, name text, role text, last_check_in timestamp, check_in_interval time)
+create OR replace function public.update_last_checkin(uid uuid) returns boolean
 as $$
 BEGIN
-    return query select * from public.child_users c where c.invite_code = invite_code_text;
+  UPDATE auth.users
+    SET
+      last_checkin = NOW()
+  WHERE id = uid;
+  return true;
 END;
-$$ language plpgsql;
+$$ language plpgsql security definer;
+
+create OR replace function public.update_interval(uid uuid, new_interval time) returns boolean
+as $$
+BEGIN
+  UPDATE auth.users
+    SET
+      interval = new_interval,
+      raw_user_meta_data = raw_user_meta_data || jsonb_build_object('interval', new_interval)
+  WHERE id = uid;
+  return true;
+END;
+$$ language plpgsql security definer;
+
+
+DROP FUNCTION public.get_supervised(text);
+-- get child users function for RPC
+create or replace function public.get_supervised(l_invite_code text)
+  RETURNS TABLE(tid uuid, tname text, tlast_checkin timestamptz, "tinterval" time, difference interval)
+as $$
+BEGIN
+    return query select id, name, last_checkin, "interval", (now() - last_checkin) as difference from auth.users where (invite_code = l_invite_code AND user_type='supervised');
+END;
+$$ language plpgsql security definer;

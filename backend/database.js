@@ -3,10 +3,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import {createClient, REALTIME_LISTEN_TYPES} from '@supabase/supabase-js'
 import {AppState} from "react-native";
 
-const supabaseUrl = "http://127.0.0.1:54321";
-const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0";
+const supabaseUrl = 'http://10.0.0.229:54321'
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0";
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+export const supabase = createClient(supabaseUrl, supabaseKey, {
     auth: {
         storage: AsyncStorage,
         autoRefreshToken: true,
@@ -14,26 +14,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
         detectSessionInUrl: false,
     },
 });
-
-supabase.channel('parent_inserts')
-    .on(REALTIME_LISTEN_TYPES.POSTGRES_CHANGES,     {
-        schema: 'public', // Subscribes to the "public" schema in Postgres
-        table: '*',
-        event: '*',       // Listen to all changes
-    },
- (data) => {
-        console.log(data);
-    }).subscribe();
-
-// supabase.channel('checkin_violations')
-//     .on(REALTIME_LISTEN_TYPES.POSTGRES_CHANGES,     {
-//             schema: 'public', // Subscribes to the "public" schema in Postgres
-//             table: 'child_users',
-//             event: 'insert',       // Listen to all changes
-//         },
-//         (data) => {
-//             console.log(data);
-//         }).subscribe();
 
 export const storeUserMetadata = async (value) => {
     try {
@@ -86,12 +66,12 @@ export const getUserChildren = async () => {
             storeUserMetadata(res.data[0]);
         })
 }
-export const supabaseAccountCreator = createClient(supabaseUrl, supabaseAnonKey);
+export const supabaseAccountCreator = createClient(supabaseUrl, supabaseKey);
 
 AppState.addEventListener('change', (state) => {
     if (state === 'active') {
-        supabase.auth.startAutoRefresh();
+        supabase.auth.startAutoRefresh()
     } else {
-        supabase.auth.stopAutoRefresh();
+        supabase.auth.stopAutoRefresh()
     }
-});
+})
