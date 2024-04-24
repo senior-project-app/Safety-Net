@@ -7,7 +7,7 @@ import {NameContext, SessionContext} from "../../../backend/Context";
 import {supabase} from "../../../backend/database";
 
 const ChildInfo = ({ navigation }) => {
-    const { name, setName, inviteCode, setInviteCode } = useContext(NameContext);
+    const { name, setName, inviteCode } = useContext(NameContext);
     const { session, setSession } = useContext(SessionContext);
 
     async function validateName() {

@@ -15,16 +15,28 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.safetynet"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "backgroundColor": "#ffffff",
+      },
+      "googleServicesFile": "safety-net-56acf-firebase-adminsdk-dtqmx-9f2dc710f1.json",
+      "package": "com.safetynet"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "react-native-background-fetch"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "96c279a5-a13d-4ccf-9373-5a64b5ec8191"
+      }
+    },
+    "owner": "andromdaa"
   }
 }

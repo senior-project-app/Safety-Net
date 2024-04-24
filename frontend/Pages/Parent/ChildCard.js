@@ -4,11 +4,35 @@ import {ListItem} from "react-native-elements";
 import {LinearGradient} from "expo-linear-gradient";
 import {TimerPickerModal} from "react-native-timer-picker";
 import {supabase} from "../../../backend/database";
-import parseDate from "postgres-date";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import utc from "dayjs/plugin/utc";
+import updateLocale from "dayjs/plugin/updateLocale";
+
+dayjs.extend(relativeTime);
+dayjs.extend(utc);
+dayjs.extend(updateLocale);
+
+dayjs.updateLocale('en', {
+    relativeTime: {
+        future: "in %s",
+        past: "%s ago",
+        s: 'seconds',
+        m: "a minute",
+        mm: "%d minutes",
+        h: "an hour",
+        hh: "%d hours",
+        d: "a day",
+        dd: "%d days",
+        M: "a month",
+        MM: "%d months",
+        y: "a year",
+        yy: "%d years"
+    }
+});
 
 const ChildCard = ({ user, index }) => {
     const [visible, setVisible] = useState(false);
-    const [ timerSelect, setTimerSelect ] = useState(false);
     const [ time, setTime ] = useState("");
 
     const toggleOverlay = () => {
@@ -24,18 +48,19 @@ const ChildCard = ({ user, index }) => {
     }
 
     function prettify_time(time_str) {
-        let [ hours, minutes, seconds ] = time_str.split(':');
-        seconds = seconds.substring(0, 2);
-        return `${hours} hrs ${minutes} min ${seconds} sec`
+        if(user.linterval === null) return "Interval not set";
+
+        const start = dayjs(user.last_checkin).utc(true);
+        return start.fromNow(true);
     }
 
     return (
         <View style={{ width: "75%" }}>
             <Pressable onPress={toggleOverlay}>
-                <ListItem bottomDivider>
+                <ListItem >
                     <ListItem.Content>
                         <ListItem.Title>{user.tname}</ListItem.Title>
-                        <ListItem.Subtitle>Last check-in: { prettify_time(user.difference)  }</ListItem.Subtitle>
+                        <ListItem.Subtitle>Last check-in: { prettify_time(user.linterval) } ago</ListItem.Subtitle>
                     </ListItem.Content>
                     <ListItem.Chevron />
                 </ListItem>

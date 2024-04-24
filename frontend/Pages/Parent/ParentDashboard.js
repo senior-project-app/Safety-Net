@@ -2,28 +2,21 @@ import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {Pressable, RefreshControl, SafeAreaView, ScrollView, Text, View} from 'react-native';
 import styles from "../../Components/Styles";
 import Button from "../../Components/Button";
-import { getUserMetadata, supabase } from "../../../backend/database";
+import { supabase } from "../../../backend/database";
 import ChildCard from "./ChildCard";
 import {SessionContext} from "../../../backend/Context";
-
-const parse = require('postgres-date');
 
 const ParentDashboardPage = ({ navigation }) => {
     const { session, setSession } = useContext(SessionContext);
     const [ children, setChildren ] = useState([]);
 
     const getChildren = async () => {
-        const {data, error} = await supabase.rpc('get_supervised', {l_invite_code: session.user.user_metadata.invite_code });
+        const {data, error} = await supabase.rpc('get_supervised', {invite_code: session.user.user_metadata.code });
         if(error) return console.log(error);
         setChildren(data);
     }
 
     useEffect(() => {
-        getChildren()
-
-        setInterval(() => {
-            getChildren();
-        }, 1000);
     }, []);
 
     return (

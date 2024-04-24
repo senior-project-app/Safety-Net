@@ -28,7 +28,7 @@ function Register({navigation}) {
             options: {
                 data: {
                     name: name.toLowerCase(),
-                    role: 'supervisor'
+                    role: "supervisor"
                 }
             }
         });

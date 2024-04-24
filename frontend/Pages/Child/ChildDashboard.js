@@ -9,7 +9,7 @@ const ChildDashboard = () => {
     const { session, setSession } = useContext(SessionContext);
 
     async function updateLatestCheckIn() {
-        const {  error } = await supabase.rpc('update_last_checkin', { uid: session.user.id });
+        const {  error } = await supabase.rpc('checkin', { uid: session.user.id });
         if(error) Alert.alert(error.message);
     }
 
