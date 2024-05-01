@@ -97,6 +97,17 @@ const styles = StyleSheet.create({
         borderColor: darkPurple,
         backgroundColor: royalPurple,
     },
+    purpleAnimatedButton: {
+        textAlign: 'center',
+        padding: DEFAULT_PADDING,
+        marginTop: DEFAULT_MARGIN,
+        marginBottom: DEFAULT_MARGIN,
+        borderRadius: "100%",
+        fontSize: TEXT_INPUT_FONT_SIZE,
+        color: white,
+        borderColor: darkPurple,
+        backgroundColor: royalPurple,
+    },
 });
 
 export default styles;

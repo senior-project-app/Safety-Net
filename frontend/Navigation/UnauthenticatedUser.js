@@ -1,18 +1,32 @@
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {Image} from "react-native";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
-import {LOGIN_ICON, PAIR_ICON, REGISTER_ICON} from "../Icons";
 import {Pair} from "../Pages/Pair";
+import {Image} from "react-native";
+import {LOGIN_ICON} from "../Icons";
 
 function UnauthenticatedUser({ navigation }) {
     const Tab = createBottomTabNavigator();
 
     return (
-        <Tab.Navigator screenOptions={{headerShown: false }}>
-            <Tab.Screen options={{ tabBarIcon: () => (<Image source={LOGIN_ICON} />) }} name="Login" component={Login} />
-            <Tab.Screen options={{ tabBarIcon: () => (<Image source={PAIR_ICON} />) }} name="Pair" component={Pair} />
-            <Tab.Screen options={{ tabBarIcon: () => (<Image source={REGISTER_ICON} />) }} name="Register" component={Register} />
+        <Tab.Navigator
+            screenOptions={({ route }) => ({
+                headerShown: false,
+                tabBarIcon: ({ focused, color, size }) => {
+                    switch(route.name) {
+                        case 'Login':
+                            return <Image src={LOGIN_ICON}/>;
+                        case 'Pair':
+                            return null;
+                        case 'Register':
+                            return null;
+                    }
+                }
+            })}
+        >
+            <Tab.Screen name="Login" component={Login} />
+            <Tab.Screen name="Pair" component={Pair} />
+            <Tab.Screen name="Register" component={Register} />
         </Tab.Navigator>
     );
 }

@@ -15,7 +15,7 @@ const ChildDashboard = () => {
 
     return (
         <View style={styles.centeredContainer}>
-            <Text style={styles.centeredHeadline}>Tap the button below to check in with your loved one.</Text>
+            <Text style={styles.centeredHeadline}>Press the button below to check-in.</Text>
             <CircleButton text={"Check-In"} onPress={ () => updateLatestCheckIn() }/>
 
             <Text>{"\n\n"}</Text>

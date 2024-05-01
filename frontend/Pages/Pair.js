@@ -11,7 +11,7 @@ export const Pair = ({ navigation }) => {
 
     return (
         <NameContext.Provider value={{ name: name, setName: setName, inviteCode: inviteCode, setInviteCode: setInviteCode }}>
-            <Stack.Navigator>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
                 <Stack.Screen name={"EnterCode"} component={ChildSignIn}/>
                 <Stack.Screen name={"EnterName"} component={ChildInfo}/>
             </Stack.Navigator>

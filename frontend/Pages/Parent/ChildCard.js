@@ -51,16 +51,28 @@ const ChildCard = ({ user, index }) => {
         if(user.linterval === null) return "Interval not set";
 
         const start = dayjs(user.last_checkin).utc(true);
-        return start.fromNow(true);
+        return `${start.fromNow(true)} ago`;
+    }
+
+    function checkForViolation() {
+        if(user.linterval === null) return false;
+        const [ hours, minutes, seconds ] = user.linterval.split(":");
+
+        const start = dayjs(user.last_checkin).utc(true);
+        const end = dayjs().utc(true).add(hours, 'hours').add(minutes, 'minutes').add(seconds, 'seconds');
+
+        return "black";
+        // if (diff > hours) return "red";
+        // else return "black";
     }
 
     return (
         <View style={{ width: "75%" }}>
             <Pressable onPress={toggleOverlay}>
-                <ListItem >
+                <ListItem topDivider bottomDivider>
                     <ListItem.Content>
-                        <ListItem.Title>{user.tname}</ListItem.Title>
-                        <ListItem.Subtitle>Last check-in: { prettify_time(user.linterval) } ago</ListItem.Subtitle>
+                        <ListItem.Title >{user.tname}</ListItem.Title>
+                        <ListItem.Subtitle style={{ color: checkForViolation() }}>Last check-in: { prettify_time(user.linterval) } </ListItem.Subtitle>
                     </ListItem.Content>
                     <ListItem.Chevron />
                 </ListItem>

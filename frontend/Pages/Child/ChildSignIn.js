@@ -32,12 +32,6 @@ const ChildSignIn = ({ navigation }) => {
                 <Text style={styles.registerButton} onPress={() => navigation.navigate('Register')}> Register</Text>
             </Text>
 
-            <Text>or</Text>
-
-            <Text>Have a pairing code?
-                <Text style={styles.registerButton} onPress={() => navigation.navigate('Pair')}> Pair</Text>
-            </Text>
-
         </View>
 
 
