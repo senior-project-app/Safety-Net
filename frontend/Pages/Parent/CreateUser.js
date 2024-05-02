@@ -43,12 +43,16 @@ function CreateUser({ navigation }) {
                 <Text style={styles.logo}>SafetyNet</Text>
             </View>
 
+
             <View style={styles.child}>
                 <Text style={styles.text}>Enter name</Text>
                 <Input placeholder={"Name"} setValue={setName} value={name}/>
 
                 <Button text={"Create"} onPress={createUser}/>
             </View>
+
+            <Text style={styles.centeredText}>Your Invite Code: {session.user.user_metadata.code}</Text>
+
         </View>
     );
 }

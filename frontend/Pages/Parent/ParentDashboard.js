@@ -19,6 +19,7 @@ const ParentDashboardPage = ({ navigation }) => {
         setLoading(false);
     }
 
+
     useEffect(() => {
         getChildren();
     }, []);

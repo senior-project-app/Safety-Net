@@ -15,7 +15,6 @@ const Logout = ({ navigation }) => {
             </View>
 
             <View style={styles.child}>
-                <Button text={"Clear Session"} onPress={() => setSession(null) } ></Button>
                 <Button text={"Sign out"} onPress={() => supabase.auth.signOut()} ></Button>
             </View>
         </View>
